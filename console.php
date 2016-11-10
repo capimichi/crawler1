@@ -1,5 +1,5 @@
 <?php
-require_once "app/core/Loader.php";
+require_once "src/core/Loader.php";
 // TODO Fix configuration in console.php
 //$config = json_decode(file_get_contents("config.json"));
 $consoleHandler = new ConsoleHandler($config);

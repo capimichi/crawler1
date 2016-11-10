@@ -10,5 +10,17 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Crawler\\": "src/Crawler/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Crawler\\": "src/Crawler/"
+        }
+    }
 }
