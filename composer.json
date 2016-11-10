@@ -1,0 +1,14 @@
+{
+    "name": "capimichi/crawler",
+    "description": "Crawler easily customizable.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michele Capicchioni",
+            "email": "capimichi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
