@@ -1,0 +1,44 @@
+<?php
+namespace Crawler\Config;
+
+/**
+ * Class ConfigDownload
+ * @package Crawler\Config
+ */
+class ConfigDownload extends ConfigObject {
+
+    /**
+     * @return int|null
+     */
+    public function getInterval(){
+        return $this->getConfiguration()->crawler->interval;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUserAgent(){
+        return $this->getConfiguration()->crawler->useragent;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isCookieEnabled(){
+        return $this->getConfiguration()->crawler->cookies->enabled;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCookieFile(){
+        return $this->getConfiguration()->crawler->cookies->file;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isJsBlocked(){
+        return $this->getConfiguration()->crawler->stopjs;
+    }
+}
