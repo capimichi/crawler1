@@ -97,7 +97,7 @@ class ConfigHandler{
         if( json_last_error() === JSON_ERROR_NONE){
             return $json;
         } else {
-            return null;
+            throw new \Exception("Json error in configuration");
         }
     }
 
