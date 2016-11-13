@@ -1,9 +1,10 @@
 <?php
-namespace Crawler\Content;
+namespace Crawler\Content\Web;
 
 use Crawler\Content\FileSystem\ImagesSystemHandler;
 
-class WebContentImage extends WebContent implements IWebContentImage {
+class WebContentImage extends WebContent
+{
 
 
     /**

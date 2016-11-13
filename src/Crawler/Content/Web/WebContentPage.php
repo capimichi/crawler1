@@ -1,7 +1,9 @@
 <?php
-namespace Crawler\Content;
+namespace Crawler\Content\Web;
 
-class WebContentPage extends WebContent implements IWebContentPage {
+use Crawler\Content\FileSystem\CacheSystemHandler;
+
+class WebContentPage extends WebContent {
 
     /**
      * @var \DOMDocument
@@ -16,7 +18,7 @@ class WebContentPage extends WebContent implements IWebContentPage {
 
     public function getContent(){
         if(!isset($this->content)){
-            $fileSystemHandler = new FileSystem\CacheSystemHandler($this->getUrl());
+            $fileSystemHandler = new CacheSystemHandler($this->getUrl());
             if($fileSystemHandler->isFileDownloaded()){
                 $content = $this->fetchCachedContent($fileSystemHandler->getFilePath());
             } else {
@@ -34,7 +36,7 @@ class WebContentPage extends WebContent implements IWebContentPage {
     public function getDomXpath()
     {
         if(!isset($this->domXpath)){
-            $this->setDomXpath(new DOMXPath($this->getDomDocument()));
+            $this->setDomXpath(new \DOMXPath($this->getDomDocument()));
         }
         return $this->domXpath;
     }
@@ -45,7 +47,7 @@ class WebContentPage extends WebContent implements IWebContentPage {
     public function getDomDocument()
     {
         if(!isset($this->domDocument)){
-            $dom = new DOMDocument();
+            $dom = new \DOMDocument();
             @$dom->loadHTML($this->getContent());
             $this->setDomDocument($dom);
         }

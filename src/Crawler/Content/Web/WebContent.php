@@ -1,9 +1,9 @@
 <?php
-namespace Crawler\Content;
+namespace Crawler\Content\Web;
 
-use Crawler\Content\FileSystem\IFileSystemHandler;
+use Crawler\Content\FileSystem\FileSystemHandler;
 
-abstract class WebContent implements IWebContent
+abstract class WebContent
 {
     /**
      * @var string
@@ -16,7 +16,7 @@ abstract class WebContent implements IWebContent
     protected $content;
 
     /**
-     * @var IFileSystemHandler
+     * @var FileSystemHandler
      */
     protected $fileSystemHandler;
 
@@ -28,9 +28,10 @@ abstract class WebContent implements IWebContent
     {
         $this->setUrl($url);
     }
-
-
-
+    
+    /**
+     * @return string
+     */
     public function getContent()
     {
         $fsHandler = $this->getFileSystemHandler();

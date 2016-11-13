@@ -1,5 +1,5 @@
 <?php
-namespace Crawler\Content;
+namespace Crawler\Content\Web;
 
 abstract class WebContentType{
     const PAGE = 0;

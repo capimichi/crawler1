@@ -1,6 +1,8 @@
 <?php
 namespace Crawler\Utils;
 
+use Crawler\SelectorTypes;
+
 class XpathQueryBuilder
 {
     protected $query;
@@ -69,15 +71,15 @@ class XpathQueryBuilder
     {
         $query = $this->getQuery();
         foreach ($selectors as $singleSelector) {
-            switch ($singleSelector->type) {
-                case "tagname":
-                    $query .= "//{$singleSelector->tagname}";
+            switch ($singleSelector->getType()) {
+                case SelectorTypes::TAGNAME:
+                    $query .= "//{$singleSelector->getValue()}";
                     break;
-                case "class":
-                    $query .= "//*[contains(concat(' ', normalize-space(@class), ' '), ' {$singleSelector->class} ')]";
+                case SelectorTypes::CLASSNAME:
+                    $query .= "//*[contains(concat(' ', normalize-space(@class), ' '), ' {$singleSelector->getValue()} ')]";
                     break;
-                case "id":
-                    $query .= "//*[contains(concat(' ', normalize-space(@id), ' '), ' {$singleSelector->id} ')]";
+                case SelectorTypes::ID:
+                    $query .= "//*[contains(concat(' ', normalize-space(@id), ' '), ' {$singleSelector->getValue()} ')]";
                     break;
             }
         }

@@ -5,7 +5,7 @@ namespace Crawler\Content\FileSystem;
  * Class FileSystemHandler
  * @package Crawler\Content
  */
-abstract class FileSystemHandler implements IFileSystemHandler
+abstract class FileSystemHandler
 {
 
     /**

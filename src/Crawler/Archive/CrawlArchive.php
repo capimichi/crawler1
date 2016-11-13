@@ -3,16 +3,43 @@ namespace Crawler\Archive;
 
 use Crawler\CrawlObject;
 use Crawler\Utils\XpathQueryBuilder;
+use Crawler\Single\CrawlSingle;
 
-class CrawlArchive extends CrawlObject implements ICrawlArchive {
+/**
+ * Class CrawlArchive
+ * @package Crawler\Archive
+ */
+class CrawlArchive extends CrawlObject
+{
 
 
+    /**
+     * @var array
+     */
     protected $itemsSelectors;
 
+    /**
+     * @var array
+     */
     protected $nextpageSelectors;
 
-    public function __construct($url, $itemsSelectors, $nextpageSelectors)
+    /**
+     * @var array
+     */
+    protected $singleFields;
+
+    /**
+     * CrawlArchive constructor.
+     * @param string $url
+     * @param array $itemsSelectors
+     * @param array $nextpageSelectors
+     * @param array $fields
+     */
+    public function __construct($url, $itemsSelectors, $nextpageSelectors, $fields)
     {
+        $this->setItemsSelectors($itemsSelectors);
+        $this->setNextpageSelectors($nextpageSelectors);
+        $this->singleFields = $fields;
         parent::__construct($url);
     }
 
@@ -21,7 +48,18 @@ class CrawlArchive extends CrawlObject implements ICrawlArchive {
      */
     public function getItems()
     {
-        // TODO: Implement getItems() method.
+        $xpathQueryBuilder = new XpathQueryBuilder();
+        $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+        $elements = $this->getXpath()->query($query);
+        $items = array();
+        for ($i = 0; $i < $elements->length; $i++) {
+            $urlObj = $elements->item($i)->attributes->getNamedItem("href");
+            if ($urlObj != null) {
+                $url = $this->parseUrl($urlObj->nodeValue);
+                $items[] = new CrawlSingle($url, $this->singleFields);
+            }
+        }
+        return $items;
     }
 
     /**
@@ -30,24 +68,22 @@ class CrawlArchive extends CrawlObject implements ICrawlArchive {
     public function getNextpageUrl()
     {
         $xpathQueryBuilder = new XpathQueryBuilder();
-        $xpathQueryBuilder = $xpathQueryBuilder->addQueryBySelectors($this->getNextpageSelectors());
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getHtml()
-    {
-        // TODO: Implement getHtml() method.
-    }
-
-    /**
-     * @return \DOMXPath
-     */
-    public function getXpath()
-    {
-        // TODO: Implement getXpath() method.
+        $query = $xpathQueryBuilder->addQueryBySelectors($this->getNextpageSelectors())->getQuery();
+        $xpath = $this->getXpath();
+        $url = null;
+        $elements = $xpath->query($query);
+        if ($elements->length > 0) {
+            $elements = $elements->item(0);
+            $attributes = $elements->attributes;
+            if ($attributes != null) {
+                $urlObj = $attributes->getNamedItem("href");
+//        $urlObj = $elements->item(0)->attributes->getNamedItem("href");
+                if ($urlObj != null) {
+                    $url = $this->parseUrl($urlObj->nodeValue);
+                }
+            }
+        }
+        return $url;
     }
 
     /**
