@@ -37,7 +37,7 @@ class ConfigDownload extends ConfigObject {
      */
     public function getInterval(){
         if(!isset($this->interval)){
-            $this->setInterval($this->getConfiguration()->crawler->interval);
+            $this->setInterval(0);
         }
         return $this->interval;
     }

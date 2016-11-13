@@ -5,6 +5,8 @@ class ImagesSystemHandler extends FileSystemHandler {
 
     public function __construct($url, $basePath = null)
     {
+        $urlParsed = parse_url($url);
+        $url = $urlParsed['scheme'] . "://" . $urlParsed['host'] . $urlParsed['path'];
         $this->url = $url;
         if($basePath == null){
             $basePath = dirname(dirname(dirname(dirname(__FILE__)))) . "/var/images/";

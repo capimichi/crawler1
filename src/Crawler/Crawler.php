@@ -57,7 +57,12 @@ class Crawler
             $archive = new CrawlArchive($startingUrl, $this->getItemsSelectors(), $this->getNextpageSelectors(), $this->getFields());
             $archives[] = $archive;
             while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
-                $archive = new CrawlArchive($nextPageUrl, $this->getItemsSelectors(), $this->getNextpageSelectors(), $this->getFields());
+                $archive = new CrawlArchive(
+                    $nextPageUrl,
+                    $this->getItemsSelectors(),
+                    $this->getNextpageSelectors(),
+                    $this->getFields()
+                );
                 $archives[] = $archive;
             }
         }

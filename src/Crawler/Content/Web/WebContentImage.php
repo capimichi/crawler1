@@ -10,21 +10,28 @@ class WebContentImage extends WebContent
     /**
      * WebContentImage constructor.
      * @param string $url
-     * @param ImagesSystemHandler $imagesSystemHandler
      */
-    public function __construct($url, $imagesSystemHandler)
+    public function __construct($url)
     {
-        $this->setFileSystemHandler(new ImagesSystemHandler());
+        $this->setFileSystemHandler(new ImagesSystemHandler($url));
         parent::__construct($url);
     }
 
     /**
-     * @var \DOMDocument
+     * @return string
      */
-    protected $domDocument;
+    public function getContent(){
+        if(!isset($this->content)){
+            $fileSystemHandler = new ImagesSystemHandler($this->getUrl());
+            if($fileSystemHandler->isFileDownloaded()){
+                $content = $this->fetchCachedContent($fileSystemHandler->getFilePath());
+            } else {
+                $content = $this->downloadContent();
+                $fileSystemHandler->saveContent($content);
+            }
+            $this->setContent($content);
+        }
+        return $this->content;
+    }
 
-    /**
-     * @var \DOMXPath
-     */
-    protected $domXpath;
 }

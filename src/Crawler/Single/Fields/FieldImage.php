@@ -1,15 +1,42 @@
 <?php
 namespace Crawler\Single\Fields;
 
+use Crawler\Content\FileSystem\ImagesSystemHandler;
+use Crawler\Content\Web\WebContentImage;
 use Crawler\Single\Fields\Field;
+use Crawler\Utils\XpathQueryBuilder;
 
 class FieldImage extends Field {
+
+    /**
+     * @var ImagesSystemHandler
+     */
+    protected $imagesSystemHandler;
+
     /**
      * @return string
      */
     public function getSrc()
     {
-        // TODO: Implement getSrc() method.
+        $xpath = $this->getXpath();
+        $builder = new XpathQueryBuilder();
+        $query = $builder->addQueryBySelectors($this->getSelectors())->getQuery();
+        $elements = $xpath->query($query);
+        $src = array();
+        for ($i = 0; $i < $elements->length; $i++) {
+            $imageUrl = null;
+            $srcObj = $elements->item($i)->attributes->getNamedItem("src");
+            if($srcObj != null){
+                $imageUrl = $this->parseUrl($srcObj->nodeValue);
+                $webContentImage = new WebContentImage($imageUrl);
+                $imageContent = $webContentImage->getContent();
+            }
+            $src[] = $imageUrl;
+        }
+        if (!$this->isMultiple() && count($src) > 0) {
+            $src = $src[0];
+        }
+        return $src;
     }
 
     /**
@@ -17,9 +44,28 @@ class FieldImage extends Field {
      */
     public function getDownloadedImage()
     {
-        // TODO: Implement getDownloadedImage() method.
+        $src = $this->getSrc();
+        $downloaded = array();
+        if(is_array($src)){
+            foreach($src as $imageUrl){
+                $ish = new ImagesSystemHandler($imageUrl);
+                $downloaded[] = $ish->getFilePath();
+            }
+        } else {
+            $ish = new ImagesSystemHandler($src);
+            $downloaded = $ish->getFilePath();
+        }
+        return $downloaded;
     }
 
+
+    public function getExport()
+    {
+        return array(
+            $this->getName() => $this->getSrc(),
+            $this->getName()."-downloaded" => $this->getDownloadedImage()
+        );
+    }
 
 
 }

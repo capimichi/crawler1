@@ -1,5 +1,6 @@
 <?php
 namespace Crawler\Single\Fields;
+use Crawler\Single\CrawlSingle;
 
 /**
  * Class Field
@@ -23,15 +24,14 @@ abstract class Field {
     protected $selectors;
 
     /**
-     * @var \DOMXPath
-     */
-    protected $xpath;
-
-    /**
      * @var string
      */
     protected $url;
 
+    /**
+     * @var CrawlSingle
+     */
+    protected $crawlSingle;
 
     /**
      * Field constructor.
@@ -98,15 +98,6 @@ abstract class Field {
     }
 
     /**
-     * @param \DOMXPath $xpath
-     * @return void
-     */
-    public function setXpath($xpath)
-    {
-        $this->xpath = $xpath;
-    }
-
-    /**
      * @param string $url
      * @return void
      */
@@ -123,12 +114,21 @@ abstract class Field {
         // TODO: Implement getExport() method.
     }
 
+
+    /**
+     * @param CrawlSingle $crawlSingle
+     */
+    public function setCrawlSingle($crawlSingle)
+    {
+        $this->crawlSingle = $crawlSingle;
+    }
+
     /**
      * @return \DOMXPath
      */
     protected function getXpath()
     {
-        return $this->xpath;
+        return $this->getCrawlSingle()->getXpath();
     }
 
     /**
@@ -159,4 +159,11 @@ abstract class Field {
         return $newUrl;
     }
 
+    /**
+     * @return CrawlSingle
+     */
+    protected function getCrawlSingle()
+    {
+        return $this->crawlSingle;
+    }
 }

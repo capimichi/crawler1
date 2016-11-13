@@ -13,9 +13,9 @@ class CrawlSingle extends CrawlObject {
     public function __construct($url, $fields)
     {
         parent::__construct($url);
-        $this->setFields($fields);
+        $this->setFields(unserialize(serialize($fields)));
         for($i = 0; $i < count($this->fields); $i++){
-            $fields[$i]->setXpath($this->getXpath());
+            $this->fields[$i]->setCrawlSingle($this);
         }
     }
 
