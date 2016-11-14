@@ -19,14 +19,21 @@ class FieldImage extends Field {
         $src = array();
         for ($i = 0; $i < $elements->length; $i++) {
             $imageUrl = null;
-            $srcObj = $elements->item($i)->attributes->getNamedItem("src");
-            if($srcObj != null){
-                $imageUrl = $this->parseUrl($srcObj->nodeValue);
-                foreach($this->getRewrites() as $rewrite){
-                    $imageUrl = $rewrite->convertValue($imageUrl);
+            $tagname = $elements->item($i)->nodeName;
+            $attributes = array(
+                "img" => "src",
+                "a" => "href"
+            );
+            if($tagname != null){
+                $srcObj = $elements->item($i)->attributes->getNamedItem($attributes[$tagname]);
+                if($srcObj != null){
+                    $imageUrl = $this->parseUrl($srcObj->nodeValue);
+                    foreach($this->getRewrites() as $rewrite){
+                        $imageUrl = $rewrite->convertValue($imageUrl);
+                    }
+                    $webContentImage = new WebContentImage($imageUrl);
+                    $imageContent = $webContentImage->getContent();
                 }
-                $webContentImage = new WebContentImage($imageUrl);
-                $imageContent = $webContentImage->getContent();
             }
             $src[] = $imageUrl;
         }
