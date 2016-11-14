@@ -186,6 +186,10 @@ abstract class Field {
             if($url[0] !== "/"){
                 $newUrl .= "/";
             }
+        } else{
+            if(!isset($parsed['scheme'])){
+                $newUrl = $originalParsed['scheme'] . ":";
+            }
         }
         $newUrl .= $url;
         return $newUrl;
