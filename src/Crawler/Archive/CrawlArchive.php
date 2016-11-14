@@ -91,7 +91,7 @@ class CrawlArchive extends CrawlObject
                 $element = $elements->item($i);
             }
             if ($element != null) {
-                $attributes = $elements->attributes;
+                $attributes = $element->attributes;
                 if ($attributes != null) {
                     $urlObj = $attributes->getNamedItem("href");
                     if ($urlObj != null) {

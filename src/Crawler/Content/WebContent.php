@@ -270,8 +270,10 @@ abstract class WebContent
         return $content;
     }
 
+
     /**
      * @return string|bool
+     * @throws \Exception
      */
     protected function downloadContent()
     {
@@ -288,6 +290,9 @@ abstract class WebContent
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->getCookiePath());
         }
         $content = curl_exec($ch);
+        if($content == false){
+            throw new \Exception(curl_error($ch) . " (" . curl_errno($ch) . ")");
+        }
         curl_close($ch);
         return $content;
     }
