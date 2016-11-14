@@ -19,7 +19,7 @@ class FieldString extends Field {
         for ($i = 0; $i < $elements->length; $i++) {
             $value = $elements->item($i)->nodeValue;
             foreach($this->getRewrites() as $rewrite){
-                $value = preg_replace($rewrite->getSearch(), $rewrite->getReplace(), $value);
+                $value = $rewrite->convertValue($value);
             }
             $string[] = $value;
         }

@@ -23,7 +23,7 @@ class FieldImage extends Field {
             if($srcObj != null){
                 $imageUrl = $this->parseUrl($srcObj->nodeValue);
                 foreach($this->getRewrites() as $rewrite){
-                    $imageUrl = preg_replace($rewrite->getSearch(), $rewrite->getReplace(), $imageUrl);
+                    $imageUrl = $rewrite->convertValue($imageUrl);
                 }
                 $webContentImage = new WebContentImage($imageUrl);
                 $imageContent = $webContentImage->getContent();

@@ -21,7 +21,7 @@ class FieldUrl extends Field {
             if($urlObj != null){
                 $url = $this->parseUrl($urlObj->nodeValue);
                 foreach($this->getRewrites() as $rewrite){
-                    $url = preg_replace($rewrite->getSearch(), $rewrite->getReplace(), $url);
+                    $url = $rewrite->convertValue($url);
                 }
             }
             $urls[] = $url;
