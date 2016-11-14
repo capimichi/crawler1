@@ -4,7 +4,8 @@ namespace Crawler;
 use Crawler\Content\WebContent;
 use Crawler\Content\WebContentPage;
 
-abstract class CrawlObject {
+abstract class CrawlObject
+{
 
 
     /**
@@ -22,11 +23,6 @@ abstract class CrawlObject {
      */
     protected $crawler;
 
-    /**
-     * @var interval
-     */
-    protected $interval;
-
 
     /**
      * CrawlObject constructor.
@@ -38,6 +34,8 @@ abstract class CrawlObject {
         $this->setUrl($url);
         $this->setCrawler($crawler);
         $this->setWebContent(new WebContentPage($url));
+        $this->getWebContent()->setInterval($this->getInterval());
+        $this->getWebContent()->setVerifyPeer($this->isVerifyPeer());
     }
 
     /**
@@ -62,10 +60,10 @@ abstract class CrawlObject {
      */
     public function getContent()
     {
-        if($this->getWebContent()->isFileDownloaded()){
+        if ($this->getWebContent()->isFileDownloaded()) {
             $content = $this->getWebContent()->loadContent();
         } else {
-            if($this->getInterval() > 0){
+            if ($this->getInterval() > 0) {
                 sleep($this->getInterval());
             }
             $content = $this->getWebContent()->getContent();
@@ -107,19 +105,16 @@ abstract class CrawlObject {
     }
 
     /**
-     * @param interval $interval
-     */
-    public function setInterval($interval)
-    {
-        $this->interval = $interval;
-    }
-
-    /**
      * @return interval
      */
     protected function getInterval()
     {
-        return $this->interval;
+        return $this->getCrawler()->getInterval();
+    }
+
+    protected function isVerifyPeer()
+    {
+        return $this->getCrawler()->isVerifyPeer();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Crawler\Config;
  * Class ConfigDownload
  * @package Crawler\Config
  */
-class ConfigDownload extends ConfigObject {
+class ConfigDownload {
 
     /**
      * @var int|null
@@ -31,6 +31,11 @@ class ConfigDownload extends ConfigObject {
      * @var bool|null
      */
     protected $jsBlocked;
+
+    /**
+     * @var bool
+     */
+    protected $verifyPeer;
 
     /**
      * @return int|null
@@ -121,5 +126,21 @@ class ConfigDownload extends ConfigObject {
     public function setJsBlocked($jsBlocked)
     {
         $this->jsBlocked = $jsBlocked;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVerifyPeer()
+    {
+        return $this->verifyPeer;
+    }
+
+    /**
+     * @param boolean $verifyPeer
+     */
+    public function setVerifyPeer($verifyPeer)
+    {
+        $this->verifyPeer = $verifyPeer;
     }
 }

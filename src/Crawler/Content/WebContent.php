@@ -40,6 +40,11 @@ abstract class WebContent
     protected $cookiePath;
 
     /**
+     * @var bool
+     */
+    protected $verifyPeer;
+
+    /**
      * @var string
      */
     protected $basePath;
@@ -68,6 +73,7 @@ abstract class WebContent
         $this->setUrl($url);
         $this->setBasePath($basePath);
         $this->setHardDirectoring(false);
+        $this->setVerifyPeer(true);
     }
     
     /**
@@ -229,6 +235,14 @@ abstract class WebContent
     }
 
     /**
+     * @param boolean $verifyPeer
+     */
+    public function setVerifyPeer($verifyPeer)
+    {
+        $this->verifyPeer = $verifyPeer;
+    }
+
+    /**
      * @return string
      */
     protected function getUseragent()
@@ -335,5 +349,13 @@ abstract class WebContent
     protected function isCacheEnabled()
     {
         return $this->cacheEnabled;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function isVerifyPeer()
+    {
+        return $this->verifyPeer;
     }
 }

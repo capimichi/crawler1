@@ -35,14 +35,10 @@ class Crawler
     protected $fields;
 
     /**
-     * @var int
-     */
-    protected $interval;
-
-    /**
      * @var ConfigDownload
      */
     protected $configDownload;
+
 
     /**
      * ICrawler constructor.
@@ -53,6 +49,7 @@ class Crawler
      */
     public function __construct($startingUrls, $itemsSelectors, $nextpageSelectors, $fields)
     {
+        $this->setConfigDownload(new ConfigDownload());
         $this->setInterval(0);
         if(!is_array($startingUrls)){
             $startingUrls = array($startingUrls);
@@ -68,6 +65,11 @@ class Crawler
         $this->setNextpageSelectors($nextpageSelectors);
         if(!is_array($fields)){
             $fields = array($fields);
+        }
+        foreach($fields as $field){
+            if(!is_array($field->getSelectors())){
+                $field->setSelectors(array($field->getSelectors()));
+            }
         }
         $this->setFields($fields);
     }
@@ -86,7 +88,6 @@ class Crawler
                 $this->getFields(),
                 $this
             );
-            $archive->setInterval($this->getInterval());
             $archives[] = $archive;
             while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
                 $archive = new CrawlArchive(
@@ -96,7 +97,6 @@ class Crawler
                     $this->getFields(),
                     $this
                 );
-                $archive->setInterval($this->getInterval());
                 $archives[] = $archive;
             }
         }
@@ -124,7 +124,7 @@ class Crawler
      * @return int
      */
     public function getInterval(){
-        return $this->interval;
+        return $this->getConfigDownload()->getInterval();
     }
 
     /**
@@ -132,7 +132,7 @@ class Crawler
      */
     public function setInterval($interval)
     {
-        $this->interval = $interval;
+        $this->getConfigDownload()->setInterval($interval);
     }
 
     /**
@@ -194,6 +194,22 @@ class Crawler
     public function setJsBlocked($jsBlocked)
     {
         $this->getConfigDownload()->setJsBlocked($jsBlocked);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVerifyPeer()
+    {
+        return $this->getConfigDownload()->isVerifyPeer();
+    }
+
+    /**
+     * @param boolean $verifyPeer
+     */
+    public function setVerifyPeer($verifyPeer)
+    {
+        $this->getConfigDownload()->setVerifyPeer($verifyPeer);
     }
 
     /**
