@@ -168,7 +168,7 @@ abstract class Field {
      */
     protected function getUrl()
     {
-        return $this->url;
+        return $this->getCrawlSingle()->getUrl();
     }
 
     /**
