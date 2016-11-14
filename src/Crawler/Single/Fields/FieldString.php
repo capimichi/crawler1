@@ -18,6 +18,9 @@ class FieldString extends Field {
         $string = array();
         for ($i = 0; $i < $elements->length; $i++) {
             $value = $elements->item($i)->nodeValue;
+            foreach($this->getRewrites() as $rewrite){
+                $value = preg_replace($rewrite->getSearch(), $rewrite->getReplace(), $value);
+            }
             $string[] = $value;
         }
         if (!$this->isMultiple() && count($string) > 0) {

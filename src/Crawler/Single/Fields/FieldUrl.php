@@ -20,6 +20,9 @@ class FieldUrl extends Field {
             $urlObj = $elements->item($i)->attributes->getNamedItem("href");
             if($urlObj != null){
                 $url = $this->parseUrl($urlObj->nodeValue);
+                foreach($this->getRewrites() as $rewrite){
+                    $url = preg_replace($rewrite->getSearch(), $rewrite->getReplace(), $url);
+                }
             }
             $urls[] = $url;
         }

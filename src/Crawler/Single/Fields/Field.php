@@ -34,6 +34,11 @@ abstract class Field {
     protected $crawlSingle;
 
     /**
+     * @var array
+     */
+    protected $rewrites;
+
+    /**
      * Field constructor.
      * @param string $name
      * @param bool $multiple
@@ -41,6 +46,7 @@ abstract class Field {
      */
     public function __construct($name, $multiple, $selectors)
     {
+        $this->setRewrites(array());
         $this->setName($name);
         $this->setMultiple($multiple);
         $this->setSelectors($selectors);
@@ -121,6 +127,32 @@ abstract class Field {
     public function setCrawlSingle($crawlSingle)
     {
         $this->crawlSingle = $crawlSingle;
+    }
+
+    /**
+     * @param $search
+     * @param $replace
+     */
+    public function addRewrite($search, $replace){
+        $rewrites = $this->getRewrites();
+        $rewrites[] = new Rewrite($search, $replace);
+        $this->setRewrites($rewrites);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRewrites()
+    {
+        return $this->rewrites;
+    }
+
+    /**
+     * @param array $rewrites
+     */
+    protected function setRewrites($rewrites)
+    {
+        $this->rewrites = $rewrites;
     }
 
     /**
