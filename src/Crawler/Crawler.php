@@ -3,6 +3,7 @@ namespace Crawler;
 
 use Crawler\Archive\CrawlArchive;
 use Crawler\Config\ConfigDownload;
+use Crawler\Single\Fields\Field;
 
 
 /**
@@ -40,16 +41,28 @@ class Crawler
 
     /**
      * ICrawler constructor.
-     * @param array $startingUrls
-     * @param array $itemsSelectors
-     * @param array $nextpageSelectors
-     * @param array $fields
+     * @param array|string $startingUrls
+     * @param array|Selector $itemsSelectors
+     * @param array|Selector $nextpageSelectors
+     * @param array|Field $fields
      */
     public function __construct($startingUrls, $itemsSelectors, $nextpageSelectors, $fields)
     {
+        if(!is_array($startingUrls)){
+            $startingUrls = array($startingUrls);
+        }
         $this->setStartingUrls($startingUrls);
+        if(!is_array($itemsSelectors)){
+            $itemsSelectors = array($itemsSelectors);
+        }
         $this->setItemsSelectors($itemsSelectors);
+        if(!is_array($nextpageSelectors)){
+            $nextpageSelectors = array($nextpageSelectors);
+        }
         $this->setNextpageSelectors($nextpageSelectors);
+        if(!is_array($fields)){
+            $fields = array($fields);
+        }
         $this->setFields($fields);
     }
 
