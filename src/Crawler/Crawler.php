@@ -35,6 +35,11 @@ class Crawler
     protected $fields;
 
     /**
+     * @var int
+     */
+    protected $interval;
+
+    /**
      * @var ConfigDownload
      */
     protected $configDownload;
@@ -48,6 +53,7 @@ class Crawler
      */
     public function __construct($startingUrls, $itemsSelectors, $nextpageSelectors, $fields)
     {
+        $this->setInterval(0);
         if(!is_array($startingUrls)){
             $startingUrls = array($startingUrls);
         }
@@ -80,6 +86,7 @@ class Crawler
                 $this->getFields(),
                 $this
             );
+            $archive->setInterval($this->getInterval());
             $archives[] = $archive;
             while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
                 $archive = new CrawlArchive(
@@ -89,6 +96,7 @@ class Crawler
                     $this->getFields(),
                     $this
                 );
+                $archive->setInterval($this->getInterval());
                 $archives[] = $archive;
             }
         }
@@ -116,7 +124,7 @@ class Crawler
      * @return int
      */
     public function getInterval(){
-        return $this->getConfigDownload()->getInterval();
+        return $this->interval;
     }
 
     /**
@@ -124,7 +132,7 @@ class Crawler
      */
     public function setInterval($interval)
     {
-        $this->getConfigDownload()->setInterval($interval);
+        $this->interval = $interval;
     }
 
     /**

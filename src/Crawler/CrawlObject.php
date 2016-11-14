@@ -22,6 +22,11 @@ abstract class CrawlObject {
      */
     protected $crawler;
 
+    /**
+     * @var interval
+     */
+    protected $interval;
+
 
     /**
      * CrawlObject constructor.
@@ -57,11 +62,14 @@ abstract class CrawlObject {
      */
     public function getContent()
     {
-        if($this->getFileSystemHandler()->isFileDownloaded()){
-            $content = $this->getFileSystemHandler()->loadContent();
+        if($this->getWebContent()->isFileDownloaded()){
+            $content = $this->getWebContent()->loadContent();
         } else {
+            if($this->getInterval() > 0){
+                sleep($this->getInterval());
+            }
             $content = $this->getWebContent()->getContent();
-            $this->getFileSystemHandler()->saveContent($content);
+            $this->getWebContent()->saveContent();
         }
         return $content;
     }
@@ -99,6 +107,22 @@ abstract class CrawlObject {
     }
 
     /**
+     * @param interval $interval
+     */
+    public function setInterval($interval)
+    {
+        $this->interval = $interval;
+    }
+
+    /**
+     * @return interval
+     */
+    protected function getInterval()
+    {
+        return $this->interval;
+    }
+
+    /**
      * @return WebContent
      */
     protected function getWebContent()
@@ -132,22 +156,6 @@ abstract class CrawlObject {
     protected function setWebContent($webContent)
     {
         $this->webContent = $webContent;
-    }
-
-    /**
-     * @return FileSystemHandler
-     */
-    protected function getFileSystemHandler()
-    {
-        return $this->fileSystemHandler;
-    }
-
-    /**
-     * @param FileSystemHandler $fileSystemHandler
-     */
-    protected function setFileSystemHandler($fileSystemHandler)
-    {
-        $this->fileSystemHandler = $fileSystemHandler;
     }
 
 }

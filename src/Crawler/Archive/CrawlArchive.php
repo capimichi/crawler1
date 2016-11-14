@@ -54,11 +54,13 @@ class CrawlArchive extends CrawlObject
             $urlObj = $elements->item($i)->attributes->getNamedItem("href");
             if ($urlObj != null) {
                 $url = $this->parseUrl($urlObj->nodeValue);
-                $items[] = new CrawlSingle(
+                $item = new CrawlSingle(
                     $url,
                     $fields,
                     $this
                 );
+                $item->setInterval($this->getInterval());
+                $items[] = $item;
             }
         }
         return $items;
