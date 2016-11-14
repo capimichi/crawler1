@@ -1,8 +1,8 @@
 <?php
 namespace Crawler;
 
-use Crawler\Content\Web\WebContent;
-use Crawler\Content\Web\WebContentPage;
+use Crawler\Content\WebContent;
+use Crawler\Content\WebContentPage;
 
 abstract class CrawlObject {
 
@@ -18,13 +18,21 @@ abstract class CrawlObject {
     protected $webContent;
 
     /**
-     * CrawlObject constructor.
-     * @param $url
+     * @var Crawler
      */
-    public function __construct($url)
+    protected $crawler;
+
+
+    /**
+     * CrawlObject constructor.
+     * @param string $url
+     * @param Crawler $crawler
+     */
+    public function __construct($url, $crawler)
     {
         $this->setUrl($url);
-        $this->webContent = new WebContentPage($url);
+        $this->setCrawler($crawler);
+        $this->setWebContent(new WebContentPage($url));
     }
 
     /**
@@ -49,7 +57,13 @@ abstract class CrawlObject {
      */
     public function getContent()
     {
-        return $this->getWebContent()->getContent();
+        if($this->getFileSystemHandler()->isFileDownloaded()){
+            $content = $this->getFileSystemHandler()->loadContent();
+        } else {
+            $content = $this->getWebContent()->getContent();
+            $this->getFileSystemHandler()->saveContent($content);
+        }
+        return $content;
     }
 
     /**
@@ -66,6 +80,22 @@ abstract class CrawlObject {
     public function getXpath()
     {
         return $this->getWebContent()->getDomXpath();
+    }
+
+    /**
+     * @return Crawler
+     */
+    public function getCrawler()
+    {
+        return $this->crawler;
+    }
+
+    /**
+     * @param Crawler $crawler
+     */
+    public function setCrawler($crawler)
+    {
+        $this->crawler = $crawler;
     }
 
     /**
@@ -95,4 +125,29 @@ abstract class CrawlObject {
         $newUrl .= $url;
         return $newUrl;
     }
+
+    /**
+     * @param WebContentPage $webContent
+     */
+    protected function setWebContent($webContent)
+    {
+        $this->webContent = $webContent;
+    }
+
+    /**
+     * @return FileSystemHandler
+     */
+    protected function getFileSystemHandler()
+    {
+        return $this->fileSystemHandler;
+    }
+
+    /**
+     * @param FileSystemHandler $fileSystemHandler
+     */
+    protected function setFileSystemHandler($fileSystemHandler)
+    {
+        $this->fileSystemHandler = $fileSystemHandler;
+    }
+
 }

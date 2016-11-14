@@ -2,6 +2,7 @@
 namespace Crawler;
 
 use Crawler\Archive\CrawlArchive;
+use Crawler\Config\ConfigDownload;
 
 
 /**
@@ -13,24 +14,29 @@ class Crawler
 
 
     /**
-     * @var
+     * @var array
      */
     protected $startingUrls;
 
     /**
-     * @var
+     * @var array
      */
     protected $itemsSelectors;
 
     /**
-     * @var
+     * @var array
      */
     protected $nextpageSelectors;
 
     /**
-     * @var
+     * @var array
      */
     protected $fields;
+
+    /**
+     * @var ConfigDownload
+     */
+    protected $configDownload;
 
     /**
      * ICrawler constructor.
@@ -54,14 +60,21 @@ class Crawler
     {
         $archives = array();
         foreach ($this->getStartingUrls() as $startingUrl) {
-            $archive = new CrawlArchive($startingUrl, $this->getItemsSelectors(), $this->getNextpageSelectors(), $this->getFields());
+            $archive = new CrawlArchive(
+                $startingUrl,
+                $this->getItemsSelectors(),
+                $this->getNextpageSelectors(),
+                $this->getFields(),
+                $this
+            );
             $archives[] = $archive;
             while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
                 $archive = new CrawlArchive(
                     $nextPageUrl,
                     $this->getItemsSelectors(),
                     $this->getNextpageSelectors(),
-                    $this->getFields()
+                    $this->getFields(),
+                    $this
                 );
                 $archives[] = $archive;
             }
@@ -84,6 +97,98 @@ class Crawler
     public function setStartingUrls($urls)
     {
         $this->startingUrls = $urls;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInterval(){
+        return $this->getConfigDownload()->getInterval();
+    }
+
+    /**
+     * @param int|null $interval
+     */
+    public function setInterval($interval)
+    {
+        $this->getConfigDownload()->setInterval($interval);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUserAgent(){
+        return $this->getConfigDownload()->getUserAgent();
+    }
+
+    /**
+     * @param null|string $userAgent
+     */
+    public function setUserAgent($userAgent)
+    {
+        $this->getConfigDownload()->setUserAgent($userAgent);
+    }
+
+
+    /**
+     * @return bool|null
+     */
+    public function isCookieEnabled(){
+        return $this->getConfigDownload()->isCookieEnabled();
+    }
+
+    /**
+     * @param bool|null $cookieEnabled
+     */
+    public function setCookieEnabled($cookieEnabled)
+    {
+        $this->getConfigDownload()->setCookieEnabled($cookieEnabled);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCookieFile(){
+        return $this->getConfigDownload()->getCookieFile();
+    }
+
+    /**
+     * @param null|string $cookieFile
+     */
+    public function setCookieFile($cookieFile)
+    {
+        $this->getConfigDownload()->setCookieFile($cookieFile);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isJsBlocked(){
+        return $this->getConfigDownload()->isJsBlocked();
+    }
+
+    /**
+     * @param bool|null $jsBlocked
+     */
+    public function setJsBlocked($jsBlocked)
+    {
+        $this->getConfigDownload()->setJsBlocked($jsBlocked);
+    }
+
+    /**
+     * @return ConfigDownload
+     */
+    protected function getConfigDownload()
+    {
+        return $this->configDownload;
+    }
+
+    /**
+     * @param ConfigDownload $configDownload
+     */
+    protected function setConfigDownload($configDownload)
+    {
+        $this->configDownload = $configDownload;
     }
 
     /**

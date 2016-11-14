@@ -1,17 +1,11 @@
 <?php
 namespace Crawler\Single\Fields;
 
-use Crawler\Content\FileSystem\ImagesSystemHandler;
-use Crawler\Content\Web\WebContentImage;
+use Crawler\Content\WebContentImage;
 use Crawler\Single\Fields\Field;
 use Crawler\Utils\XpathQueryBuilder;
 
 class FieldImage extends Field {
-
-    /**
-     * @var ImagesSystemHandler
-     */
-    protected $imagesSystemHandler;
 
     /**
      * @return string
@@ -48,11 +42,11 @@ class FieldImage extends Field {
         $downloaded = array();
         if(is_array($src)){
             foreach($src as $imageUrl){
-                $ish = new ImagesSystemHandler($imageUrl);
+                $ish = new WebContentImage($imageUrl);
                 $downloaded[] = $ish->getFilePath();
             }
         } else {
-            $ish = new ImagesSystemHandler($src);
+            $ish = new WebContentImage($src);
             $downloaded = $ish->getFilePath();
         }
         return $downloaded;

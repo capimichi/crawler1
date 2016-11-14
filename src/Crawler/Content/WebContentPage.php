@@ -1,7 +1,5 @@
 <?php
-namespace Crawler\Content\Web;
-
-use Crawler\Content\FileSystem\CacheSystemHandler;
+namespace Crawler\Content;
 
 class WebContentPage extends WebContent {
 
@@ -16,18 +14,16 @@ class WebContentPage extends WebContent {
     protected $domXpath;
 
 
-    public function getContent(){
-        if(!isset($this->content)){
-            $fileSystemHandler = new CacheSystemHandler($this->getUrl());
-            if($fileSystemHandler->isFileDownloaded()){
-                $content = $this->fetchCachedContent($fileSystemHandler->getFilePath());
-            } else {
-                $content = $this->downloadContent();
-                $fileSystemHandler->saveContent($content);
-            }
-            $this->setContent($content);
+    /**
+     * WebContentPage constructor.
+     * @param string $url
+     */
+    public function __construct($url, $basePath = null)
+    {
+        if($basePath == null){
+            $basePath = dirname(dirname(dirname(dirname(__FILE__)))) . "/var/cache/";
         }
-        return $this->content;
+        parent::__construct($url, $basePath);
     }
 
     /**

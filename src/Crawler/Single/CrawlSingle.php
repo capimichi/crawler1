@@ -10,9 +10,9 @@ class CrawlSingle extends CrawlObject {
      */
     protected $fields;
 
-    public function __construct($url, $fields)
+    public function __construct($url, $fields, $crawler)
     {
-        parent::__construct($url);
+        parent::__construct($url, $crawler);
         $this->setFields(unserialize(serialize($fields)));
         for($i = 0; $i < count($this->fields); $i++){
             $this->fields[$i]->setCrawlSingle($this);

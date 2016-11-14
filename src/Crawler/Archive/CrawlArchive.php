@@ -4,6 +4,7 @@ namespace Crawler\Archive;
 use Crawler\CrawlObject;
 use Crawler\Utils\XpathQueryBuilder;
 use Crawler\Single\CrawlSingle;
+use Crawler\Crawler;
 
 /**
  * Class CrawlArchive
@@ -11,7 +12,6 @@ use Crawler\Single\CrawlSingle;
  */
 class CrawlArchive extends CrawlObject
 {
-
 
     /**
      * @var array
@@ -26,7 +26,7 @@ class CrawlArchive extends CrawlObject
     /**
      * @var array
      */
-    protected $singleFields;
+    protected $items;
 
     /**
      * CrawlArchive constructor.
@@ -34,20 +34,18 @@ class CrawlArchive extends CrawlObject
      * @param array $itemsSelectors
      * @param array $nextpageSelectors
      * @param array $fields
+     * @param Crawler $crawler
      */
-    public function __construct($url, $itemsSelectors, $nextpageSelectors, $fields)
+    public function __construct($url, $itemsSelectors, $nextpageSelectors, $fields, $crawler)
     {
         $this->setItemsSelectors($itemsSelectors);
         $this->setNextpageSelectors($nextpageSelectors);
-        $this->singleFields = $fields;
-        parent::__construct($url);
+        parent::__construct($url, $crawler);
+        $this->setItems($this->findItems($fields));
     }
 
-    /**
-     * @return array
-     */
-    public function getItems()
-    {
+
+    protected function findItems($fields){
         $xpathQueryBuilder = new XpathQueryBuilder();
         $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
         $elements = $this->getXpath()->query($query);
@@ -56,10 +54,22 @@ class CrawlArchive extends CrawlObject
             $urlObj = $elements->item($i)->attributes->getNamedItem("href");
             if ($urlObj != null) {
                 $url = $this->parseUrl($urlObj->nodeValue);
-                $items[] = new CrawlSingle($url, $this->singleFields);
+                $items[] = new CrawlSingle(
+                    $url,
+                    $fields,
+                    $this
+                );
             }
         }
         return $items;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->items;
     }
 
     /**
@@ -120,5 +130,14 @@ class CrawlArchive extends CrawlObject
     {
         return $this->nextpageSelectors;
     }
+
+    /**
+     * @param array $items
+     */
+    protected function setItems($items)
+    {
+        $this->items = $items;
+    }
+
 
 }
