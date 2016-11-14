@@ -45,7 +45,8 @@ class CrawlArchive extends CrawlObject
     }
 
 
-    protected function findItems($fields){
+    protected function findItems($fields)
+    {
         $xpathQueryBuilder = new XpathQueryBuilder();
         $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
         $elements = $this->getXpath()->query($query);
@@ -85,13 +86,17 @@ class CrawlArchive extends CrawlObject
         $url = null;
         $elements = $xpath->query($query);
         if ($elements->length > 0) {
-            $elements = $elements->item(0);
-            $attributes = $elements->attributes;
-            if ($attributes != null) {
-                $urlObj = $attributes->getNamedItem("href");
-//        $urlObj = $elements->item(0)->attributes->getNamedItem("href");
-                if ($urlObj != null) {
-                    $url = $this->parseUrl($urlObj->nodeValue);
+            $element = null;
+            for ($i = 0; $i < $elements->length; $i++) {
+                $element = $elements->item($i);
+            }
+            if ($element != null) {
+                $attributes = $elements->attributes;
+                if ($attributes != null) {
+                    $urlObj = $attributes->getNamedItem("href");
+                    if ($urlObj != null) {
+                        $url = $this->parseUrl($urlObj->nodeValue);
+                    }
                 }
             }
         }
