@@ -76,12 +76,12 @@ abstract class WebContent
         if(!isset($this->content)){
             if($this->isFileDownloaded() && $this->isCacheEnabled()){
                 if($this->isVerbose()){
-                    echo str_pad($this->getUrl(), 200) . "[cached]\n";
+                    echo str_pad($this->getUrl(), 100) . "[cached]\n";
                 }
                 $this->setContent($this->fetchCachedContent($this->getFilePath()));
             } else {
                 if($this->isVerbose()){
-                    echo str_pad($this->getUrl(), 200) . "[downloading]\n";
+                    echo str_pad($this->getUrl(), 100) . "[downloading]\n";
                 }
                 $this->setContent($this->downloadContent());
                 $this->saveContent();
