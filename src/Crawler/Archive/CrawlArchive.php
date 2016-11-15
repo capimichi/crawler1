@@ -36,7 +36,7 @@ class CrawlArchive extends CrawlObject
      * @param array $fields
      * @param Crawler $crawler
      */
-    public function __construct($url, $itemsSelectors, $nextpageSelectors, $fields, $crawler)
+    private function __construct($url, $itemsSelectors, $nextpageSelectors, $fields, $crawler)
     {
         $this->setItemsSelectors($itemsSelectors);
         $this->setNextpageSelectors($nextpageSelectors);
@@ -125,7 +125,7 @@ class CrawlArchive extends CrawlObject
     /**
      * @return mixed
      */
-    protected function getItemsSelectors()
+    public function getItemsSelectors()
     {
         return $this->itemsSelectors;
     }
@@ -133,7 +133,7 @@ class CrawlArchive extends CrawlObject
     /**
      * @return mixed
      */
-    protected function getNextpageSelectors()
+    public function getNextpageSelectors()
     {
         return $this->nextpageSelectors;
     }
@@ -141,7 +141,7 @@ class CrawlArchive extends CrawlObject
     /**
      * @param array $items
      */
-    protected function setItems($items)
+    public function setItems($items)
     {
         $this->items = $items;
     }

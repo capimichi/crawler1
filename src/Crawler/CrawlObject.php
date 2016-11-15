@@ -4,7 +4,7 @@ namespace Crawler;
 use Crawler\Content\WebContent;
 use Crawler\Content\WebContentPage;
 
-abstract class CrawlObject
+abstract class CrawlObject extends ConfigurableDownloadObject
 {
 
 
@@ -18,24 +18,16 @@ abstract class CrawlObject
      */
     protected $webContent;
 
-    /**
-     * @var Crawler
-     */
-    protected $crawler;
-
 
     /**
      * CrawlObject constructor.
      * @param string $url
-     * @param Crawler $crawler
+     * @param WebContentPage $webContentPage
      */
-    public function __construct($url, $crawler)
+    private function __construct($url, $webContentPage)
     {
         $this->setUrl($url);
-        $this->setCrawler($crawler);
-        $this->setWebContent(new WebContentPage($url));
-        $this->getWebContent()->setInterval($this->getInterval());
-        $this->getWebContent()->setVerifyPeer($this->isVerifyPeer());
+        $this->setWebContent($webContentPage);
     }
 
     /**
@@ -86,35 +78,6 @@ abstract class CrawlObject
     public function getXpath()
     {
         return $this->getWebContent()->getDomXpath();
-    }
-
-    /**
-     * @return Crawler
-     */
-    public function getCrawler()
-    {
-        return $this->crawler;
-    }
-
-    /**
-     * @param Crawler $crawler
-     */
-    public function setCrawler($crawler)
-    {
-        $this->crawler = $crawler;
-    }
-
-    /**
-     * @return interval
-     */
-    protected function getInterval()
-    {
-        return $this->getCrawler()->getInterval();
-    }
-
-    protected function isVerifyPeer()
-    {
-        return $this->getCrawler()->isVerifyPeer();
     }
 
     /**

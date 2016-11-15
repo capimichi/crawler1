@@ -10,7 +10,7 @@ use Crawler\Single\Fields\Field;
  * Class Crawler
  * @package Crawler
  */
-class Crawler
+class Crawler extends ConfigurableDownloadObject
 {
 
 
@@ -34,11 +34,6 @@ class Crawler
      */
     protected $fields;
 
-    /**
-     * @var ConfigDownload
-     */
-    protected $configDownload;
-
 
     /**
      * ICrawler constructor.
@@ -49,8 +44,6 @@ class Crawler
      */
     public function __construct($startingUrls, $itemsSelectors, $nextpageSelectors, $fields)
     {
-        $this->setConfigDownload(new ConfigDownload());
-        $this->setInterval(0);
         if(!is_array($startingUrls)){
             $startingUrls = array($startingUrls);
         }
@@ -121,114 +114,6 @@ class Crawler
     }
 
     /**
-     * @return int
-     */
-    public function getInterval(){
-        return $this->getConfigDownload()->getInterval();
-    }
-
-    /**
-     * @param int|null $interval
-     */
-    public function setInterval($interval)
-    {
-        $this->getConfigDownload()->setInterval($interval);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUserAgent(){
-        return $this->getConfigDownload()->getUserAgent();
-    }
-
-    /**
-     * @param null|string $userAgent
-     */
-    public function setUserAgent($userAgent)
-    {
-        $this->getConfigDownload()->setUserAgent($userAgent);
-    }
-
-
-    /**
-     * @return bool|null
-     */
-    public function isCookieEnabled(){
-        return $this->getConfigDownload()->isCookieEnabled();
-    }
-
-    /**
-     * @param bool|null $cookieEnabled
-     */
-    public function setCookieEnabled($cookieEnabled)
-    {
-        $this->getConfigDownload()->setCookieEnabled($cookieEnabled);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCookieFile(){
-        return $this->getConfigDownload()->getCookieFile();
-    }
-
-    /**
-     * @param null|string $cookieFile
-     */
-    public function setCookieFile($cookieFile)
-    {
-        $this->getConfigDownload()->setCookieFile($cookieFile);
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function isJsBlocked(){
-        return $this->getConfigDownload()->isJsBlocked();
-    }
-
-    /**
-     * @param bool|null $jsBlocked
-     */
-    public function setJsBlocked($jsBlocked)
-    {
-        $this->getConfigDownload()->setJsBlocked($jsBlocked);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isVerifyPeer()
-    {
-        return $this->getConfigDownload()->isVerifyPeer();
-    }
-
-    /**
-     * @param boolean $verifyPeer
-     */
-    public function setVerifyPeer($verifyPeer)
-    {
-        $this->getConfigDownload()->setVerifyPeer($verifyPeer);
-    }
-
-    /**
-     * @return ConfigDownload
-     */
-    protected function getConfigDownload()
-    {
-        return $this->configDownload;
-    }
-
-    /**
-     * @param ConfigDownload $configDownload
-     */
-    protected function setConfigDownload($configDownload)
-    {
-        $this->configDownload = $configDownload;
-    }
-
-    /**
      * @param mixed $itemsSelectors
      */
     protected function setItemsSelectors($itemsSelectors)
@@ -275,5 +160,4 @@ class Crawler
     {
         return $this->fields;
     }
-
 }
