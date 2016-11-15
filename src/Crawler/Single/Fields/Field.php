@@ -103,7 +103,7 @@ abstract class Field {
      */
     public function getExport()
     {
-        // TODO: Implement getExport() method.
+
     }
 
 

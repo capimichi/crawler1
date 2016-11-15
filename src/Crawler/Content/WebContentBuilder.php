@@ -28,6 +28,7 @@ abstract class WebContentBuilder{
         $this->buildObject->setCookiePath("");
         $this->buildObject->setHardDirectoring(false);
         $this->buildObject->setVerifyPeer(true);
+        $this->buildObject->setVerbose(false);
     }
 
     /**
@@ -108,6 +109,15 @@ abstract class WebContentBuilder{
      */
     public function setVerifyPeer($enabled){
         $this->buildObject->setVerifyPeer($enabled);
+        return $this;
+    }
+
+    /**
+     * @param bool $verbose
+     * @return WebContentBuilder $this
+     */
+    public function setVerbose($verbose){
+        $this->buildObject->setVerbose($verbose);
         return $this;
     }
 

@@ -48,6 +48,11 @@ class Crawler extends ConfigurableDownloadObject
      */
     protected $fields;
 
+    /**
+     * @var bool
+     */
+    protected $verbose;
+
 
     /**
      * ICrawler constructor.
@@ -99,6 +104,7 @@ class Crawler extends ConfigurableDownloadObject
                 }
                 $contentPageBuilder = new WebContentPageBuilder();
                 $contentPageBuilder->setUrl($startingUrl);
+                $contentPageBuilder->setVerbose($this->isVerbose());
 
                 // TODO: Parametri al WebContentPage
 
@@ -116,6 +122,7 @@ class Crawler extends ConfigurableDownloadObject
                     }
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($nextPageUrl);
+                    $contentPageBuilder->setVerbose($this->isVerbose());
 
                     // TODO: Parametri al WebContentPage
 
@@ -146,6 +153,7 @@ class Crawler extends ConfigurableDownloadObject
                     $builder->setUrl($url);
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($url);
+                    $contentPageBuilder->setVerbose($this->isVerbose());
 
                     // TODO: Parametri al WebContentPage
 
@@ -176,6 +184,21 @@ class Crawler extends ConfigurableDownloadObject
         $this->startingUrls = $urls;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isVerbose()
+    {
+        return $this->verbose;
+    }
+
+    /**
+     * @param boolean $verbose
+     */
+    public function setVerbose($verbose)
+    {
+        $this->verbose = $verbose;
+    }
 
     /**
      * @param array $items

@@ -59,6 +59,11 @@ abstract class WebContent
      */
     protected $cacheEnabled;
 
+    /**
+     * @var bool
+     */
+    protected $verbose;
+
     public function __construct()
     {
     }
@@ -70,8 +75,14 @@ abstract class WebContent
     {
         if(!isset($this->content)){
             if($this->isFileDownloaded() && $this->isCacheEnabled()){
+                if($this->isVerbose()){
+                    echo str_pad($this->getUrl(), 200) . "[cached]\n";
+                }
                 $this->setContent($this->fetchCachedContent($this->getFilePath()));
             } else {
+                if($this->isVerbose()){
+                    echo str_pad($this->getUrl(), 200) . "[downloading]\n";
+                }
                 $this->setContent($this->downloadContent());
                 $this->saveContent();
             }
@@ -238,6 +249,14 @@ abstract class WebContent
     }
 
     /**
+     * @param boolean $verbose
+     */
+    public function setVerbose($verbose)
+    {
+        $this->verbose = $verbose;
+    }
+
+    /**
      * @return string
      */
     protected function getUseragent()
@@ -344,5 +363,13 @@ abstract class WebContent
     protected function isVerifyPeer()
     {
         return $this->verifyPeer;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function isVerbose()
+    {
+        return $this->verbose;
     }
 }
