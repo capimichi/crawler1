@@ -39,20 +39,6 @@ abstract class Field {
     protected $rewrites;
 
     /**
-     * Field constructor.
-     * @param string $name
-     * @param bool $multiple
-     * @param array $selectors
-     */
-    public function __construct($name, $multiple, $selectors)
-    {
-        $this->setRewrites(array());
-        $this->setName($name);
-        $this->setMultiple($multiple);
-        $this->setSelectors($selectors);
-    }
-
-    /**
      * @return string
      */
     public function getName()
@@ -138,16 +124,6 @@ abstract class Field {
     }
 
     /**
-     * @param $search
-     * @param $replace
-     */
-    public function addRewrite($search, $replace){
-        $rewrites = $this->getRewrites();
-        $rewrites[] = new Rewrite($search, $replace);
-        $this->setRewrites($rewrites);
-    }
-
-    /**
      * @return \DOMXPath
      */
     public function getXpath()
@@ -158,7 +134,7 @@ abstract class Field {
     /**
      * @return array
      */
-    protected function getRewrites()
+    public function getRewrites()
     {
         return $this->rewrites;
     }
@@ -166,7 +142,7 @@ abstract class Field {
     /**
      * @param array $rewrites
      */
-    protected function setRewrites($rewrites)
+    public function setRewrites($rewrites)
     {
         $this->rewrites = $rewrites;
     }
