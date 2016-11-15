@@ -35,6 +35,7 @@ class FieldBuilder
         }
         $this->field->setSelectors(array());
         $this->field->setMultiple(false);
+        $this->field->setRewrites(array());
     }
 
 
@@ -68,6 +69,17 @@ class FieldBuilder
     public function setMultiple($multiple)
     {
         $this->field->setMultiple($multiple);
+        return $this;
+    }
+
+    /**
+     * @param Rewrite $rewrite
+     * @return FieldBuilder $this
+     */
+    public function addRewrite($rewrite){
+        $rewrites = $this->field->getRewrites();
+        $rewrites[] = $rewrite;
+        $this->field->setRewrites($rewrites);
         return $this;
     }
 
