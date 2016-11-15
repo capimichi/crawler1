@@ -4,16 +4,8 @@ namespace Crawler\Content;
 class WebContentImage extends WebContent
 {
 
-    /**
-     * WebContentImage constructor.
-     * @param string $url
-     */
-    public function __construct($url, $basePath = null)
-    {
-        if($basePath == null){
-            $basePath = dirname(dirname(dirname(dirname(__FILE__)))) . "/var/images/";
-        }
-        parent::__construct($url, $basePath);
+    public function __construct(){
+
     }
 
     /**

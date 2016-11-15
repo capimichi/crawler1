@@ -26,53 +26,36 @@ class CrawlArchive extends CrawlObject
     /**
      * @var array
      */
-    protected $items;
+    protected $itemsUrls;
 
     /**
      * CrawlArchive constructor.
-     * @param string $url
-     * @param array $itemsSelectors
-     * @param array $nextpageSelectors
-     * @param array $fields
-     * @param Crawler $crawler
      */
-    private function __construct($url, $itemsSelectors, $nextpageSelectors, $fields, $crawler)
+    public function __construct()
     {
-        $this->setItemsSelectors($itemsSelectors);
-        $this->setNextpageSelectors($nextpageSelectors);
-        parent::__construct($url, $crawler);
-        $this->setItems($this->findItems($fields));
-    }
 
-
-    protected function findItems($fields)
-    {
-        $xpathQueryBuilder = new XpathQueryBuilder();
-        $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
-        $elements = $this->getXpath()->query($query);
-        $items = array();
-        for ($i = 0; $i < $elements->length; $i++) {
-            $urlObj = $elements->item($i)->attributes->getNamedItem("href");
-            if ($urlObj != null) {
-                $url = $this->parseUrl($urlObj->nodeValue);
-                $item = new CrawlSingle(
-                    $url,
-                    $fields,
-                    $this
-                );
-                $item->setInterval($this->getInterval());
-                $items[] = $item;
-            }
-        }
-        return $items;
     }
 
     /**
      * @return array
      */
-    public function getItems()
+    public function getItemsUrls()
     {
-        return $this->items;
+        if(!isset($this->itemsUrls)){
+            $xpathQueryBuilder = new XpathQueryBuilder();
+            $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+            $elements = $this->getXpath()->query($query);
+            $itemsUrls = array();
+            for ($i = 0; $i < $elements->length; $i++) {
+                $urlObj = $elements->item($i)->attributes->getNamedItem("href");
+                if ($urlObj != null) {
+                    $url = $this->parseUrl($urlObj->nodeValue);
+                    $itemsUrls[] = $url;
+                }
+            }
+            $this->setItemsUrls($itemsUrls);
+        }
+        return $this->itemsUrls;
     }
 
     /**
@@ -139,11 +122,11 @@ class CrawlArchive extends CrawlObject
     }
 
     /**
-     * @param array $items
+     * @param array $itemsUrls
      */
-    public function setItems($items)
+    protected function setItemsUrls($itemsUrls)
     {
-        $this->items = $items;
+        $this->itemsUrls = $itemsUrls;
     }
 
 

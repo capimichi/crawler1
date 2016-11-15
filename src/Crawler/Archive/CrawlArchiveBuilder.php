@@ -1,77 +1,57 @@
 <?php
 namespace Crawler\Archive;
+use Crawler\CrawlObjectBuilder;
 
 /**
  * Class CrawlArchiveBuilder
  * @package Crawler\Archive
  */
-class CrawlArchiveBuilder{
-
-    /**
-     * @var CrawlArchive
-     */
-    protected $crawlArchive;
+class CrawlArchiveBuilder extends CrawlObjectBuilder {
 
     /**
      * CrawlArchiveBuilder constructor.
      */
     public function __construct()
     {
-        $this->crawlArchive = new CrawlArchive();
-    }
-
-    /**
-     * @param $url
-     * @return $this
-     */
-    public function setUrl($url){
-        $this->getCrawlArchive()->setUrl($url);
-        return $this;
+        $this->buildObject = new CrawlArchive();
+        $this->buildObject->setItemsSelectors(array());
+        $this->buildObject->setNextpageSelectors(array());
+        parent::__construct();
     }
 
     /**
      * @param $selector
-     * @return $this
+     * @return CrawlArchiveBuilder $this
      */
     public function addItemSelector($selector){
-        $selectors = $this->getCrawlArchive()->getItemsSelectors();
-        if(!is_array($selectors)){
-            $selectors = array($selectors);
-        }
+        $selectors = $this->buildObject->getItemsSelectors();
         $selectors[] = $selector;
-        $this->getCrawlArchive()->setItemsSelectors($selectors);
+        $this->buildObject->setItemsSelectors($selectors);
         return $this;
     }
 
     /**
      * @param $selector
-     * @return $this
+     * @return CrawlArchiveBuilder $this
      */
     public function addNextpageSelector($selector){
-        $selectors = $this->getCrawlArchive()->getNextpageSelectors();
-        if(!is_array($selectors)){
-            $selectors = array($selectors);
-        }
+        $selectors = $this->buildObject->getNextpageSelectors();
         $selectors[] = $selector;
-        $this->getCrawlArchive()->getNextpageSelectors($selectors);
+        $this->buildObject->setNextpageSelectors($selectors);
         return $this;
     }
 
     /**
-     * @return CrawlArchive
+     * @throws \Exception
      */
-    protected function getCrawlArchive()
-    {
-        return $this->crawlArchive;
+    public function validate(){
+        if(count($this->buildObject->getItemsSelectors()) < 1){
+            throw new \Exception("No items selector added in archive");
+        }
+        if(count($this->buildObject->getNextpageSelectors()) < 1){
+            throw new \Exception("No next page selector added in archive");
+        }
+        parent::validate();
     }
-
-    /**
-     * @param CrawlArchive $crawlArchive
-     */
-    protected function setCrawlArchive($crawlArchive)
-    {
-        $this->crawlArchive = $crawlArchive;
-    }
-
 
 }

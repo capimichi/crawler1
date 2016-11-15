@@ -13,17 +13,9 @@ class WebContentPage extends WebContent {
      */
     protected $domXpath;
 
-
-    /**
-     * WebContentPage constructor.
-     * @param string $url
-     */
-    public function __construct($url, $basePath = null)
+    public function __construct()
     {
-        if($basePath == null){
-            $basePath = dirname(dirname(dirname(dirname(__FILE__)))) . "/var/cache/";
-        }
-        parent::__construct($url, $basePath);
+
     }
 
     /**

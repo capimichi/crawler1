@@ -59,23 +59,10 @@ abstract class WebContent
      */
     protected $cacheEnabled;
 
-    /**
-     * WebContent constructor.
-     * @param string $url
-     */
-    public function __construct($url, $basePath = null)
+    public function __construct()
     {
-        $this->setCacheEnabled(true);
-        $this->setInterval(0);
-        $this->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
-        $this->setCookieEnabled(false);
-        $this->setCookiePath("");
-        $this->setUrl($url);
-        $this->setBasePath($basePath);
-        $this->setHardDirectoring(false);
-        $this->setVerifyPeer(true);
     }
-    
+
     /**
      * @return string
      */
@@ -180,6 +167,14 @@ abstract class WebContent
     public function setBasePath($path)
     {
         $this->basePath = $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basePath;
     }
 
     /**
@@ -317,14 +312,6 @@ abstract class WebContent
     protected function setContent($content)
     {
         $this->content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getBasePath()
-    {
-        return $this->basePath;
     }
 
     /**

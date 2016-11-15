@@ -10,14 +10,16 @@ class CrawlSingle extends CrawlObject {
      */
     protected $fields;
 
-    public function __construct($url, $fields, $crawler)
+    public function __construct()
     {
-        parent::__construct($url, $crawler);
-        $this->setFields(unserialize(serialize($fields)));
-        for($i = 0; $i < count($this->fields); $i++){
-            $this->fields[$i]->setCrawlSingle($this);
-        }
     }
+//    public function __construct($url, $fields)
+//    {
+//        $this->setFields(unserialize(serialize($fields)));
+//        for($i = 0; $i < count($this->fields); $i++){
+//            $this->fields[$i]->setCrawlSingle($this);
+//        }
+//    }
 
     /**
      * @param array $fields
@@ -28,6 +30,13 @@ class CrawlSingle extends CrawlObject {
         $this->fields = $fields;
     }
 
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
 
     /**
      * @return array
@@ -44,14 +53,4 @@ class CrawlSingle extends CrawlObject {
         }
         return $export;
     }
-
-    /**
-     * @return array
-     */
-    protected function getFields()
-    {
-        return $this->fields;
-    }
-
-
 }

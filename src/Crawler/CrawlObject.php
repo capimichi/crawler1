@@ -6,8 +6,6 @@ use Crawler\Content\WebContentPage;
 
 abstract class CrawlObject extends ConfigurableDownloadObject
 {
-
-
     /**
      * @var string
      */
@@ -21,13 +19,10 @@ abstract class CrawlObject extends ConfigurableDownloadObject
 
     /**
      * CrawlObject constructor.
-     * @param string $url
-     * @param WebContentPage $webContentPage
      */
-    private function __construct($url, $webContentPage)
+    private function __construct()
     {
-        $this->setUrl($url);
-        $this->setWebContent($webContentPage);
+
     }
 
     /**
@@ -81,9 +76,18 @@ abstract class CrawlObject extends ConfigurableDownloadObject
     }
 
     /**
+     * @param WebContentPage $webContent
+     */
+    public function setWebContent($webContent)
+    {
+        $this->webContent = $webContent;
+    }
+
+
+    /**
      * @return WebContent
      */
-    protected function getWebContent()
+    public function getWebContent()
     {
         return $this->webContent;
     }
@@ -111,13 +115,4 @@ abstract class CrawlObject extends ConfigurableDownloadObject
         $newUrl .= $url;
         return $newUrl;
     }
-
-    /**
-     * @param WebContentPage $webContent
-     */
-    protected function setWebContent($webContent)
-    {
-        $this->webContent = $webContent;
-    }
-
 }

@@ -2,7 +2,11 @@
 namespace Crawler;
 
 use Crawler\Archive\CrawlArchive;
+use Crawler\Archive\CrawlArchiveBuilder;
 use Crawler\Config\ConfigDownload;
+use Crawler\Content\WebContentPage;
+use Crawler\Content\WebContentPageBuilder;
+use Crawler\Single\CrawlSingleBuilder;
 use Crawler\Single\Fields\Field;
 
 
@@ -28,6 +32,16 @@ class Crawler extends ConfigurableDownloadObject
      * @var array
      */
     protected $nextpageSelectors;
+
+    /**
+     * @var array
+     */
+    protected $archives;
+
+    /**
+     * @var array
+     */
+    protected $items;
 
     /**
      * @var array
@@ -72,29 +86,67 @@ class Crawler extends ConfigurableDownloadObject
      */
     public function getArchives()
     {
-        $archives = array();
-        foreach ($this->getStartingUrls() as $startingUrl) {
-            $archive = new CrawlArchive(
-                $startingUrl,
-                $this->getItemsSelectors(),
-                $this->getNextpageSelectors(),
-                $this->getFields(),
-                $this
-            );
-            $archives[] = $archive;
-            while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
-                $archive = new CrawlArchive(
-                    $nextPageUrl,
-                    $this->getItemsSelectors(),
-                    $this->getNextpageSelectors(),
-                    $this->getFields(),
-                    $this
-                );
+        if(!isset($this->archives)){
+            $archives = array();
+            foreach ($this->getStartingUrls() as $startingUrl) {
+                $builder = new CrawlArchiveBuilder();
+                $builder->setUrl($startingUrl);
+                foreach($this->getItemsSelectors() as $itemsSelector){
+                    $builder->addItemSelector($itemsSelector);
+                }
+                foreach($this->getNextpageSelectors() as $nextpageSelector){
+                    $builder->addNextpageSelector($nextpageSelector);
+                }
+                $contentPageBuilder = new WebContentPageBuilder();
+                $contentPageBuilder->setUrl($startingUrl);
+
+                // TODO: Parametri al WebContentPage
+
+                $builder->setWebContentPage($contentPageBuilder->build());
+                $archive = $builder->build();
                 $archives[] = $archive;
+                while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
+                    $builder->setUrl($nextPageUrl);
+                    $contentPageBuilder->setUrl($nextPageUrl);
+                    $builder->setWebContentPage($contentPageBuilder->build());
+                    $archive = $builder->build();
+                    $archives[] = $archive;
+                }
             }
+            $this->setArchives($archives);
         }
-        return $archives;
+        return $this->archives;
     }
+
+    /**
+     * @return array
+     */
+    public function getItems()
+    {
+        if(!isset($this->items)){
+            $items = array();
+            $builder = new CrawlSingleBuilder();
+            foreach($this->getFields() as $field){
+                $builder->addField($field);
+            }
+            foreach($this->getArchives() as $archive){
+                $urls = $archive->getItemsUrls();
+                foreach($urls as $url){
+                    $builder->setUrl($url);
+                    $contentPageBuilder = new WebContentPageBuilder();
+                    $contentPageBuilder->setUrl($url);
+
+                    // TODO: Parametri al WebContentPage
+
+                    $builder->setWebContentPage($contentPageBuilder->build());
+                    $items[] = $builder->build();
+                }
+            }
+            $this->setItems($items);
+        }
+        return $this->items;
+    }
+
 
     /**
      * @return array
@@ -111,6 +163,23 @@ class Crawler extends ConfigurableDownloadObject
     public function setStartingUrls($urls)
     {
         $this->startingUrls = $urls;
+    }
+
+
+    /**
+     * @param array $items
+     */
+    protected function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @param array $archives
+     */
+    protected function setArchives($archives)
+    {
+        $this->archives = $archives;
     }
 
     /**
