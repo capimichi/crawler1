@@ -106,8 +106,19 @@ class Crawler extends ConfigurableDownloadObject
                 $archive = $builder->build();
                 $archives[] = $archive;
                 while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
+                    $builder = new CrawlArchiveBuilder();
                     $builder->setUrl($nextPageUrl);
+                    foreach($this->getItemsSelectors() as $itemsSelector){
+                        $builder->addItemSelector($itemsSelector);
+                    }
+                    foreach($this->getNextpageSelectors() as $nextpageSelector){
+                        $builder->addNextpageSelector($nextpageSelector);
+                    }
+                    $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($nextPageUrl);
+
+                    // TODO: Parametri al WebContentPage
+
                     $builder->setWebContentPage($contentPageBuilder->build());
                     $archive = $builder->build();
                     $archives[] = $archive;
@@ -125,13 +136,13 @@ class Crawler extends ConfigurableDownloadObject
     {
         if(!isset($this->items)){
             $items = array();
-            $builder = new CrawlSingleBuilder();
-            foreach($this->getFields() as $field){
-                $builder->addField($field);
-            }
             foreach($this->getArchives() as $archive){
                 $urls = $archive->getItemsUrls();
                 foreach($urls as $url){
+                    $builder = new CrawlSingleBuilder();
+                    foreach($this->getFields() as $field){
+                        $builder->addField($field);
+                    }
                     $builder->setUrl($url);
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($url);

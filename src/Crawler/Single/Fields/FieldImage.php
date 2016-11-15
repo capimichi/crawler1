@@ -2,6 +2,7 @@
 namespace Crawler\Single\Fields;
 
 use Crawler\Content\WebContentImage;
+use Crawler\Content\WebContentImageBuilder;
 use Crawler\Single\Fields\Field;
 use Crawler\Utils\XpathQueryBuilder;
 
@@ -31,7 +32,8 @@ class FieldImage extends Field {
                     foreach($this->getRewrites() as $rewrite){
                         $imageUrl = $rewrite->convertValue($imageUrl);
                     }
-                    $webContentImage = new WebContentImage($imageUrl);
+                    $builder = new WebContentImageBuilder();
+                    $webContentImage = $builder->setUrl($imageUrl)->build();
                     $imageContent = $webContentImage->getContent();
                 }
             }
@@ -52,12 +54,14 @@ class FieldImage extends Field {
         $downloaded = array();
         if(is_array($src)){
             foreach($src as $imageUrl){
-                $ish = new WebContentImage($imageUrl);
-                $downloaded[] = $ish->getFilePath();
+                $builder = new WebContentImageBuilder();
+                $img = $builder->setUrl($imageUrl)->build();
+                $downloaded[] = $img->getFilePath();
             }
         } else {
-            $ish = new WebContentImage($src);
-            $downloaded = $ish->getFilePath();
+            $builder = new WebContentImageBuilder();
+            $img = $builder->setUrl($src)->build();
+            $downloaded = $img->getFilePath();
         }
         return $downloaded;
     }

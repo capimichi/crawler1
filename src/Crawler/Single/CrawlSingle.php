@@ -12,6 +12,7 @@ class CrawlSingle extends CrawlObject {
 
     public function __construct()
     {
+
     }
 //    public function __construct($url, $fields)
 //    {
@@ -27,6 +28,12 @@ class CrawlSingle extends CrawlObject {
      */
     public function setFields($fields)
     {
+        if(count($fields) > 0){
+            $fields = unserialize(serialize($fields));
+            foreach($fields as $field){
+                $field->setCrawlSingle($this);
+            }
+        }
         $this->fields = $fields;
     }
 

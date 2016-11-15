@@ -130,6 +130,14 @@ abstract class Field {
     }
 
     /**
+     * @return CrawlSingle
+     */
+    public function getCrawlSingle()
+    {
+        return $this->crawlSingle;
+    }
+
+    /**
      * @param $search
      * @param $replace
      */
@@ -137,6 +145,14 @@ abstract class Field {
         $rewrites = $this->getRewrites();
         $rewrites[] = new Rewrite($search, $replace);
         $this->setRewrites($rewrites);
+    }
+
+    /**
+     * @return \DOMXPath
+     */
+    public function getXpath()
+    {
+        return $this->getCrawlSingle()->getXpath();
     }
 
     /**
@@ -156,14 +172,6 @@ abstract class Field {
     }
 
     /**
-     * @return \DOMXPath
-     */
-    protected function getXpath()
-    {
-        return $this->getCrawlSingle()->getXpath();
-    }
-
-    /**
      * @return string
      */
     protected function getUrl()
@@ -175,31 +183,24 @@ abstract class Field {
      * @param $url string
      * @return string
      */
-    protected function parseUrl($url){
+    protected function parseUrl($url)
+    {
         $originalParsed = parse_url($this->getUrl());
         $parsed = parse_url($url);
         $newUrl = "";
-        if(!isset($parsed['host'])){
+        if (!isset($parsed['host'])) {
             $newUrl .= $originalParsed['scheme'];
             $newUrl .= "://";
             $newUrl .= $originalParsed['host'];
-            if($url[0] !== "/"){
+            if ($url[0] !== "/") {
                 $newUrl .= "/";
             }
-        } else{
-            if(!isset($parsed['scheme'])){
+        } else {
+            if (!isset($parsed['scheme'])) {
                 $newUrl = $originalParsed['scheme'] . ":";
             }
         }
         $newUrl .= $url;
         return $newUrl;
-    }
-
-    /**
-     * @return CrawlSingle
-     */
-    protected function getCrawlSingle()
-    {
-        return $this->crawlSingle;
     }
 }
