@@ -19,6 +19,7 @@ class CrawlerBuilder{
      */
     public function __construct()
     {
+        $this->crawler = new Crawler();
         $this->crawler->setStartingUrls(array());
         $this->crawler->setItemsSelectors(array());
         $this->crawler->setNextpageSelectors(array());
@@ -44,7 +45,7 @@ class CrawlerBuilder{
     public function addItemSelector($selector){
         $selectors = $this->crawler->getItemsSelectors();
         $selectors[] = $selector;
-        $this->crawler->setStartingUrls($selectors);
+        $this->crawler->setItemsSelectors($selectors);
         return $this;
     }
 
@@ -85,15 +86,15 @@ class CrawlerBuilder{
      */
     public function validate(){
         if(count($this->crawler->getStartingUrls()) < 1){
-            throw new \Exception("Urls not defined");
+            throw new \Exception("Starting urls not added in crawler builder");
         }
 
         if(count($this->crawler->getItemsSelectors()) < 1){
-            throw new \Exception("Items selectors not defined");
+            throw new \Exception("Items selectors not added in crawler builder");
         }
 
         if(count($this->crawler->getFields()) < 1){
-            throw new \Exception("Fields not defined");
+            throw new \Exception("Fields selectors not added in crawler builder");
         }
         return $this;
     }
