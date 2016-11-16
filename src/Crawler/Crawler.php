@@ -53,37 +53,11 @@ class Crawler extends ConfigurableDownloadObject
      */
     protected $verbose;
 
-
     /**
-     * ICrawler constructor.
-     * @param array|string $startingUrls
-     * @param array|Selector $itemsSelectors
-     * @param array|Selector $nextpageSelectors
-     * @param array|Field $fields
+     * Crawler constructor.
      */
-    public function __construct($startingUrls, $itemsSelectors, $nextpageSelectors, $fields)
+    public function __construct()
     {
-        if(!is_array($startingUrls)){
-            $startingUrls = array($startingUrls);
-        }
-        $this->setStartingUrls($startingUrls);
-        if(!is_array($itemsSelectors)){
-            $itemsSelectors = array($itemsSelectors);
-        }
-        $this->setItemsSelectors($itemsSelectors);
-        if(!is_array($nextpageSelectors)){
-            $nextpageSelectors = array($nextpageSelectors);
-        }
-        $this->setNextpageSelectors($nextpageSelectors);
-        if(!is_array($fields)){
-            $fields = array($fields);
-        }
-        foreach($fields as $field){
-            if(!is_array($field->getSelectors())){
-                $field->setSelectors(array($field->getSelectors()));
-            }
-        }
-        $this->setFields($fields);
     }
 
     /**
@@ -201,6 +175,54 @@ class Crawler extends ConfigurableDownloadObject
     }
 
     /**
+     * @param mixed $itemsSelectors
+     */
+    public function setItemsSelectors($itemsSelectors)
+    {
+        $this->itemsSelectors = $itemsSelectors;
+    }
+
+    /**
+     * @param mixed $nextpageSelectors
+     */
+    public function setNextpageSelectors($nextpageSelectors)
+    {
+        $this->nextpageSelectors = $nextpageSelectors;
+    }
+
+    /**
+     * @param mixed $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItemsSelectors()
+    {
+        return $this->itemsSelectors;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNextpageSelectors()
+    {
+        return $this->nextpageSelectors;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
      * @param array $items
      */
     protected function setItems($items)
@@ -214,53 +236,5 @@ class Crawler extends ConfigurableDownloadObject
     protected function setArchives($archives)
     {
         $this->archives = $archives;
-    }
-
-    /**
-     * @param mixed $itemsSelectors
-     */
-    protected function setItemsSelectors($itemsSelectors)
-    {
-        $this->itemsSelectors = $itemsSelectors;
-    }
-
-    /**
-     * @param mixed $nextpageSelectors
-     */
-    protected function setNextpageSelectors($nextpageSelectors)
-    {
-        $this->nextpageSelectors = $nextpageSelectors;
-    }
-
-    /**
-     * @param mixed $fields
-     */
-    protected function setFields($fields)
-    {
-        $this->fields = $fields;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getItemsSelectors()
-    {
-        return $this->itemsSelectors;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getNextpageSelectors()
-    {
-        return $this->nextpageSelectors;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getFields()
-    {
-        return $this->fields;
     }
 }
