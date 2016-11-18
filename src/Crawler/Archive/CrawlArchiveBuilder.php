@@ -42,6 +42,24 @@ class CrawlArchiveBuilder extends CrawlObjectBuilder {
     }
 
     /**
+     * @param \Crawler\Content\WebContentPage $webContentPage
+     * @return CrawlArchiveBuilder
+     */
+    public function setWebContentPage($webContentPage)
+    {
+        return parent::setWebContentPage($webContentPage);
+    }
+
+    /**
+     * @param string $url
+     * @return CrawlArchiveBuilder
+     */
+    public function setUrl($url)
+    {
+        return parent::setUrl($url);
+    }
+
+    /**
      * @throws \Exception
      */
     public function validate(){
@@ -54,4 +72,11 @@ class CrawlArchiveBuilder extends CrawlObjectBuilder {
         parent::validate();
     }
 
+    /**
+     * @return CrawlArchive
+     */
+    public function build()
+    {
+        return parent::build();
+    }
 }

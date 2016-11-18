@@ -28,6 +28,24 @@ class CrawlSingleBuilder extends CrawlObjectBuilder {
     }
 
     /**
+     * @param string $url
+     * @return CrawlSingleBuilder
+     */
+    public function setUrl($url)
+    {
+        return parent::setUrl($url);
+    }
+
+    /**
+     * @param \Crawler\Content\WebContentPage $webContentPage
+     * @return CrawlSingleBuilder
+     */
+    public function setWebContentPage($webContentPage)
+    {
+        return parent::setWebContentPage($webContentPage);
+    }
+
+    /**
      * @throws \Exception
      */
     public function validate()
@@ -36,5 +54,13 @@ class CrawlSingleBuilder extends CrawlObjectBuilder {
             throw new \Exception("Fields not added");
         }
         parent::validate();
+    }
+
+    /**
+     * @return CrawlSingle
+     */
+    public function build()
+    {
+        return parent::build();
     }
 }
