@@ -130,12 +130,14 @@ abstract class WebContentBuilder{
     }
 
     /**
+     * @return WebContentBuilder $this
      * @throws \Exception
      */
     public function validate(){
         if(empty($this->buildObject->getUrl())){
             throw new \Exception("Url not defined");
         }
+        return $this;
     }
 
 }
