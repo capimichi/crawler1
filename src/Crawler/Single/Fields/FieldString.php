@@ -21,7 +21,7 @@ class FieldString extends Field {
             foreach($this->getRewrites() as $rewrite){
                 $value = $rewrite->convertValue($value);
             }
-            $string[] = $value;
+            $string[] = trim($value);
         }
         if (!$this->isMultiple() && count($string) > 0) {
             $string = $string[0];
