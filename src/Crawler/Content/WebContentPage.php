@@ -25,6 +25,7 @@ class WebContentPage extends WebContent {
     {
         if(!isset($this->domXpath)){
             $this->setDomXpath(new \DOMXPath($this->getDomDocument()));
+            $this->setContent(null);
         }
         return $this->domXpath;
     }
