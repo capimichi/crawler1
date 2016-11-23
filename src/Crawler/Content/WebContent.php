@@ -45,6 +45,16 @@ abstract class WebContent
     protected $verifyPeer;
 
     /**
+     * @var int
+     */
+    protected $connectionTimeout;
+
+    /**
+     * @var int
+     */
+    protected $timeout;
+
+    /**
      * @var string
      */
     protected $basePath;
@@ -249,6 +259,38 @@ abstract class WebContent
     }
 
     /**
+     * @return int
+     */
+    public function getConnectionTimeout()
+    {
+        return $this->connectionTimeout;
+    }
+
+    /**
+     * @param int $connectionTimeout
+     */
+    public function setConnectionTimeout($connectionTimeout)
+    {
+        $this->connectionTimeout = $connectionTimeout;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+    }
+
+    /**
      * @param boolean $verbose
      */
     public function setVerbose($verbose)
@@ -312,15 +354,15 @@ abstract class WebContent
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getUseragent());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , $this->getConnectionTimeout());
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->getTimeout());
         if($this->isCookieEnabled()) {
             curl_setopt($ch, CURLOPT_COOKIE, true);
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->getCookiePath());
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->getCookiePath());
         }
+        usleep($this->getInterval());
         $content = curl_exec($ch);
-        if($content == false){
-            throw new \Exception(curl_error($ch) . " (" . curl_errno($ch) . ")");
-        }
         curl_close($ch);
         return $content;
     }

@@ -25,6 +25,9 @@ class CrawlerBuilder{
         $this->crawler->setNextpageSelectors(array());
         $this->crawler->setFields(array());
         $this->crawler->setVerbose(false);
+        $this->crawler->setInterval(0);
+        $this->crawler->setTimeout(10);
+        $this->crawler->setConnectionTimeout(0);
     }
 
     /**
@@ -77,6 +80,33 @@ class CrawlerBuilder{
      */
     public function setVerbose($verbose){
         $this->crawler->setVerbose($verbose);
+        return $this;
+    }
+
+    /**
+     * @param int $interval
+     * @return CrawlerBuilder $this
+     */
+    public function setInterval($interval){
+        $this->crawler->setInterval($interval);
+        return $this;
+    }
+
+    /**
+     * @param int $timeout
+     * @return CrawlerBuilder $this
+     */
+    public function setTimeout($timeout){
+        $this->crawler->setTimeout($timeout);
+        return $this;
+    }
+
+    /**
+     * @param int $timeout
+     * @return CrawlerBuilder $this
+     */
+    public function setConnectionTimeout($timeout){
+        $this->crawler-$this->setConnectionTimeout($timeout);
         return $this;
     }
 

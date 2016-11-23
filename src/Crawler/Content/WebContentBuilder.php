@@ -28,6 +28,8 @@ abstract class WebContentBuilder{
         $this->buildObject->setCookiePath("");
         $this->buildObject->setHardDirectoring(false);
         $this->buildObject->setVerifyPeer(true);
+        $this->buildObject->setConnectionTimeout(0);
+        $this->buildObject->setTimeout(10);
         $this->buildObject->setVerbose(false);
     }
 
@@ -118,6 +120,24 @@ abstract class WebContentBuilder{
      */
     public function setVerbose($verbose){
         $this->buildObject->setVerbose($verbose);
+        return $this;
+    }
+
+    /**
+     * @param int $timeout
+     * @return WebContentBuilder $this
+     */
+    public function setTimeout($timeout){
+        $this->buildObject->setTimeout($timeout);
+        return $this;
+    }
+
+    /**
+     * @param int $timeout
+     * @return WebContentBuilder $this
+     */
+    public function setConnectionTimeout($timeout){
+        $this->buildObject->setConnectionTimeout($timeout);
         return $this;
     }
 

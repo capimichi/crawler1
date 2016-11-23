@@ -108,6 +108,23 @@ class WebContentImageBuilder extends WebContentBuilder
         return parent::setVerifyPeer($enabled);
     }
 
+    /**
+     * @param int $timeout
+     * @return WebContentImageBuilder
+     */
+    public function setTimeout($timeout)
+    {
+        return parent::setTimeout($timeout);
+    }
+
+    /**
+     * @param int $timeout
+     * @return WebContentImageBuilder
+     */
+    public function setConnectionTimeout($timeout)
+    {
+        return parent::setConnectionTimeout($timeout);
+    }
 
     /**
      * @return WebContentImageBuilder

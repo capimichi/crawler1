@@ -109,6 +109,24 @@ class WebContentPageBuilder extends WebContentBuilder
     }
 
     /**
+     * @param int $timeout
+     * @return WebContentPageBuilder
+     */
+    public function setTimeout($timeout)
+    {
+        return parent::setTimeout($timeout);
+    }
+
+    /**
+     * @param int $timeout
+     * @return WebContentPageBuilder
+     */
+    public function setConnectionTimeout($timeout)
+    {
+        return parent::setConnectionTimeout($timeout);
+    }
+
+    /**
      * @return WebContentPageBuilder $this
      * @throws \Exception
      */

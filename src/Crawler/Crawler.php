@@ -79,7 +79,9 @@ class Crawler extends ConfigurableDownloadObject
                 $contentPageBuilder = new WebContentPageBuilder();
                 $contentPageBuilder->setUrl($startingUrl);
                 $contentPageBuilder->setVerbose($this->isVerbose());
-
+                $contentPageBuilder->setInterval($this->getInterval());
+                $contentPageBuilder->setTimeout($this->getTimeout());
+                $contentPageBuilder->setConnectionTimeout($this->setConnectionTimeout());
                 // TODO: Parametri al WebContentPage
 
                 $builder->setWebContentPage($contentPageBuilder->build());
@@ -97,6 +99,9 @@ class Crawler extends ConfigurableDownloadObject
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($nextPageUrl);
                     $contentPageBuilder->setVerbose($this->isVerbose());
+                    $contentPageBuilder->setInterval($this->getInterval());
+                    $contentPageBuilder->setTimeout($this->getTimeout());
+                    $contentPageBuilder->setConnectionTimeout($this->setConnectionTimeout());
 
                     // TODO: Parametri al WebContentPage
 
@@ -128,6 +133,9 @@ class Crawler extends ConfigurableDownloadObject
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder->setUrl($url);
                     $contentPageBuilder->setVerbose($this->isVerbose());
+                    $contentPageBuilder->setInterval($this->getInterval());
+                    $contentPageBuilder->setTimeout($this->getTimeout());
+                    $contentPageBuilder->setConnectionTimeout($this->setConnectionTimeout());
 
                     // TODO: Parametri al WebContentPage
 

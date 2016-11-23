@@ -23,6 +23,15 @@ abstract class ConfigurableDownloadObject
     protected $verifyPeer;
 
     /**
+     * @var int
+     */
+    protected $timeout;
+    /**
+     * @var int
+     */
+    protected $connectionTimeout;
+
+    /**
      * @var bool
      */
     protected $cookieEnabled;
@@ -83,6 +92,38 @@ abstract class ConfigurableDownloadObject
     public function setVerifyPeer($verifyPeer)
     {
         $this->verifyPeer = $verifyPeer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+    }
+
+    /**
+     * @return int
+     */
+    public function getConnectionTimeout()
+    {
+        return $this->connectionTimeout;
+    }
+
+    /**
+     * @param int $connectionTimeout
+     */
+    public function setConnectionTimeout($connectionTimeout)
+    {
+        $this->connectionTimeout = $connectionTimeout;
     }
 
     /**
