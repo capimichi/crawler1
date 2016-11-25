@@ -109,7 +109,7 @@ class Crawler extends ConfigurableDownloadObject
                     }
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder
-                        ->setUrl($startingUrl)
+                        ->setUrl($nextPageUrl)
                         ->setVerbose($this->isVerbose())
                         ->setInterval($this->getInterval())
                         ->setTimeout($this->getTimeout())
