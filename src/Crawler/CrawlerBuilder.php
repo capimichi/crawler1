@@ -20,14 +20,6 @@ class CrawlerBuilder{
     public function __construct()
     {
         $this->crawler = new Crawler();
-        $this->crawler->setStartingUrls(array());
-        $this->crawler->setItemsSelectors(array());
-        $this->crawler->setNextpageSelectors(array());
-        $this->crawler->setFields(array());
-        $this->crawler->setVerbose(false);
-        $this->crawler->setInterval(0);
-        $this->crawler->setTimeout(10);
-        $this->crawler->setConnectionTimeout(0);
     }
 
     /**

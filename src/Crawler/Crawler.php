@@ -58,6 +58,15 @@ class Crawler extends ConfigurableDownloadObject
      */
     public function __construct()
     {
+        $this->setStartingUrls(array());
+        $this->setItemsSelectors(array());
+        $this->setNextpageSelectors(array());
+        $this->setFields(array());
+        $this->setVerbose(false);
+        $this->setInterval(0);
+        $this->setTimeout(10);
+        $this->setConnectionTimeout(0);
+        $this->setVerifyPeer(false);
     }
 
     /**
@@ -77,11 +86,13 @@ class Crawler extends ConfigurableDownloadObject
                     $builder->addNextpageSelector($nextpageSelector);
                 }
                 $contentPageBuilder = new WebContentPageBuilder();
-                $contentPageBuilder->setUrl($startingUrl);
-                $contentPageBuilder->setVerbose($this->isVerbose());
-                $contentPageBuilder->setInterval($this->getInterval());
-                $contentPageBuilder->setTimeout($this->getTimeout());
-                $contentPageBuilder->setConnectionTimeout($this->getConnectionTimeout());
+                $contentPageBuilder
+                    ->setUrl($startingUrl)
+                    ->setVerbose($this->isVerbose())
+                    ->setInterval($this->getInterval())
+                    ->setTimeout($this->getTimeout())
+                    ->setConnectionTimeout($this->getConnectionTimeout())
+                    ->setVerifyPeer($this->isVerifyPeer());
                 // TODO: Parametri al WebContentPage
 
                 $builder->setWebContentPage($contentPageBuilder->build());
@@ -97,11 +108,13 @@ class Crawler extends ConfigurableDownloadObject
                         $builder->addNextpageSelector($nextpageSelector);
                     }
                     $contentPageBuilder = new WebContentPageBuilder();
-                    $contentPageBuilder->setUrl($nextPageUrl);
-                    $contentPageBuilder->setVerbose($this->isVerbose());
-                    $contentPageBuilder->setInterval($this->getInterval());
-                    $contentPageBuilder->setTimeout($this->getTimeout());
-                    $contentPageBuilder->setConnectionTimeout($this->getConnectionTimeout());
+                    $contentPageBuilder
+                        ->setUrl($startingUrl)
+                        ->setVerbose($this->isVerbose())
+                        ->setInterval($this->getInterval())
+                        ->setTimeout($this->getTimeout())
+                        ->setConnectionTimeout($this->getConnectionTimeout())
+                        ->setVerifyPeer($this->isVerifyPeer());
 
                     // TODO: Parametri al WebContentPage
 

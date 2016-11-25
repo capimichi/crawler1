@@ -33,9 +33,6 @@ class FieldBuilder
                 $this->field = new FieldImage();
                 break;
         }
-        $this->field->setSelectors(array());
-        $this->field->setMultiple(false);
-        $this->field->setRewrites(array());
     }
 
 

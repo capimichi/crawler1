@@ -38,6 +38,13 @@ abstract class Field {
      */
     protected $rewrites;
 
+    public function __construct()
+    {
+        $this->setSelectors(array());
+        $this->setMultiple(false);
+        $this->setRewrites(array());
+    }
+
     /**
      * @return string
      */

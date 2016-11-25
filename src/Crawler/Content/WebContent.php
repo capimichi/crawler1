@@ -76,6 +76,16 @@ abstract class WebContent
 
     public function __construct()
     {
+        $this->setCacheEnabled(true);
+        $this->setInterval(0);
+        $this->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
+        $this->setCookieEnabled(false);
+        $this->setCookiePath("");
+        $this->setHardDirectoring(false);
+        $this->setVerifyPeer(true);
+        $this->setConnectionTimeout(0);
+        $this->setTimeout(1000000);
+        $this->setVerbose(false);
     }
 
     /**
@@ -341,7 +351,7 @@ abstract class WebContent
     {
         $url = $this->getUrl();
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->isVerifyPeer());
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->getUseragent());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
