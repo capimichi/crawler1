@@ -72,6 +72,7 @@ class Crawler extends ConfigurableDownloadObject
         $this->setTimeout(10);
         $this->setConnectionTimeout(0);
         $this->setVerifyPeer(false);
+        $this->setMaxNextPage(false);
     }
 
     /**
