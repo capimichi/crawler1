@@ -54,6 +54,11 @@ class Crawler extends ConfigurableDownloadObject
     protected $verbose;
 
     /**
+     * @var int|bool
+     */
+    protected $maxNextPage;
+
+    /**
      * Crawler constructor.
      */
     public function __construct()
@@ -98,7 +103,12 @@ class Crawler extends ConfigurableDownloadObject
                 $builder->setWebContentPage($contentPageBuilder->build());
                 $archive = $builder->build();
                 $archives[] = $archive;
-                while( ($nextPageUrl = $archive->getNextpageUrl()) != null){
+                $pageNumber = 0;
+                $maxPage = $this->getMaxNextPage() === false ? 1 : intval($this->getMaxNextPage());
+                while( (($nextPageUrl = $archive->getNextpageUrl()) != null) && ($pageNumber < $maxPage)){
+                    if($this->getMaxNextPage() !== false){
+                        $pageNumber++;
+                    }
                     $builder = new CrawlArchiveBuilder();
                     $builder->setUrl($nextPageUrl);
                     foreach($this->getItemsSelectors() as $itemsSelector){
@@ -241,6 +251,22 @@ class Crawler extends ConfigurableDownloadObject
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function getMaxNextPage()
+    {
+        return $this->maxNextPage;
+    }
+
+    /**
+     * @param bool|int $maxNextPage
+     */
+    public function setMaxNextPage($maxNextPage)
+    {
+        $this->maxNextPage = $maxNextPage;
     }
 
     /**

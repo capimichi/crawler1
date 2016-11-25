@@ -85,6 +85,16 @@ class CrawlerBuilder{
     }
 
     /**
+     * @param int|bool $maxNextPage
+     * @return CrawlerBuilder $this
+     */
+    public function setMaxNextPage($maxNextPage)
+    {
+        $this->crawler->setMaxNextPage($maxNextPage);
+        return $this;
+    }
+
+    /**
      * @param int $timeout
      * @return CrawlerBuilder $this
      */
