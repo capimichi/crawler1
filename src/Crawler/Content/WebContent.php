@@ -117,14 +117,6 @@ abstract class WebContent
     }
 
     /**
-     * @param IFileSystemHandler $fileSystemHandler
-     */
-    public function setFileSystemHandler($fileSystemHandler)
-    {
-        $this->fileSystemHandler = $fileSystemHandler;
-    }
-
-    /**
      * @param string $useragent
      */
     public function setUseragent($useragent)
