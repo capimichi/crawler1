@@ -113,6 +113,35 @@ class CrawlerBuilder{
     }
 
     /**
+     * @param string $useragent
+     * @return CrawlerBuilder $this
+     */
+    public function setUseragent($useragent){
+        $this->crawler->setUseragent($useragent);
+        return $this;
+    }
+
+    /**
+     * @param string $proxyUrl
+     * @return CrawlerBuilder $this
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        $this->crawler->setProxyUrl($proxyUrl);
+        return $this;
+    }
+
+    /**
+     * @param int $proxyType
+     * @return CrawlerBuilder $this
+     */
+    public function setProxyType($proxyType)
+    {
+        $this->crawler->setProxyType($proxyType);
+        return $this;
+    }
+
+    /**
      * @return CrawlerBuilder $this
      * @throws \Exception
      */

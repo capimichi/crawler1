@@ -54,6 +54,16 @@ class Crawler extends ConfigurableDownloadObject
     protected $verbose;
 
     /**
+     * @var string|bool
+     */
+    protected $proxyUrl;
+
+    /**
+     * @var int
+     */
+    protected $proxyType;
+
+    /**
      * @var int|bool
      */
     protected $maxNextPage;
@@ -68,11 +78,14 @@ class Crawler extends ConfigurableDownloadObject
         $this->setNextpageSelectors(array());
         $this->setFields(array());
         $this->setVerbose(false);
+        $this->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
         $this->setInterval(0);
         $this->setTimeout(10);
         $this->setConnectionTimeout(0);
         $this->setVerifyPeer(false);
         $this->setMaxNextPage(false);
+        $this->setProxyUrl(false);
+        $this->setProxyType(CURLPROXY_SOCKS5);
     }
 
     /**
@@ -98,6 +111,9 @@ class Crawler extends ConfigurableDownloadObject
                     ->setInterval($this->getInterval())
                     ->setTimeout($this->getTimeout())
                     ->setConnectionTimeout($this->getConnectionTimeout())
+                    ->setUseragent($this->getUseragent())
+                    ->setProxyUrl($this->getProxyUrl())
+                    ->setProxyType($this->getProxyType())
                     ->setVerifyPeer($this->isVerifyPeer());
                 // TODO: Parametri al WebContentPage
 
@@ -124,6 +140,9 @@ class Crawler extends ConfigurableDownloadObject
                         ->setVerbose($this->isVerbose())
                         ->setInterval($this->getInterval())
                         ->setTimeout($this->getTimeout())
+                        ->setUseragent($this->getUseragent())
+                        ->setProxyUrl($this->getProxyUrl())
+                        ->setProxyType($this->getProxyType())
                         ->setConnectionTimeout($this->getConnectionTimeout())
                         ->setVerifyPeer($this->isVerifyPeer());
 
@@ -155,11 +174,16 @@ class Crawler extends ConfigurableDownloadObject
                     }
                     $builder->setUrl($url);
                     $contentPageBuilder = new WebContentPageBuilder();
-                    $contentPageBuilder->setUrl($url);
-                    $contentPageBuilder->setVerbose($this->isVerbose());
-                    $contentPageBuilder->setInterval($this->getInterval());
-                    $contentPageBuilder->setTimeout($this->getTimeout());
-                    $contentPageBuilder->setConnectionTimeout($this->getConnectionTimeout());
+                    $contentPageBuilder
+                        ->setUrl($url)
+                        ->setVerbose($this->isVerbose())
+                        ->setInterval($this->getInterval())
+                        ->setTimeout($this->getTimeout())
+                        ->setUseragent($this->getUseragent())
+                        ->setProxyUrl($this->getProxyUrl())
+                        ->setProxyType($this->getProxyType())
+                        ->setConnectionTimeout($this->getConnectionTimeout())
+                        ->setVerifyPeer($this->isVerifyPeer());
 
                     // TODO: Parametri al WebContentPage
 
@@ -268,6 +292,38 @@ class Crawler extends ConfigurableDownloadObject
     public function setMaxNextPage($maxNextPage)
     {
         $this->maxNextPage = $maxNextPage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyUrl()
+    {
+        return $this->proxyUrl;
+    }
+
+    /**
+     * @param string $proxyUrl
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        $this->proxyUrl = $proxyUrl;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProxyType()
+    {
+        return $this->proxyType;
+    }
+
+    /**
+     * @param int $proxyType
+     */
+    public function setProxyType($proxyType)
+    {
+        $this->proxyType = $proxyType;
     }
 
     /**

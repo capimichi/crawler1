@@ -21,16 +21,7 @@ abstract class WebContentBuilder{
      */
     public function __construct()
     {
-        $this->buildObject->setCacheEnabled(true);
-        $this->buildObject->setInterval(0);
-        $this->buildObject->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
-        $this->buildObject->setCookieEnabled(false);
-        $this->buildObject->setCookiePath("");
-        $this->buildObject->setHardDirectoring(false);
-        $this->buildObject->setVerifyPeer(true);
-        $this->buildObject->setConnectionTimeout(0);
-        $this->buildObject->setTimeout(10);
-        $this->buildObject->setVerbose(false);
+
     }
 
     /**
@@ -138,6 +129,26 @@ abstract class WebContentBuilder{
      */
     public function setConnectionTimeout($timeout){
         $this->buildObject->setConnectionTimeout($timeout);
+        return $this;
+    }
+
+    /**
+     * @param string|bool $proxyUrl
+     * @return WebContentBuilder $this
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        $this->buildObject->setProxyUrl($proxyUrl);
+        return $this;
+    }
+
+    /**
+     * @param int $proxyType
+     * @return WebContentBuilder $this
+     */
+    public function setProxyType($proxyType)
+    {
+        $this->buildObject->setProxyType($proxyType);
         return $this;
     }
 

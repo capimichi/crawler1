@@ -10,9 +10,14 @@ class CrawlSingle extends CrawlObject {
      */
     protected $fields;
 
+    /**
+     * @var string
+     */
+    protected $urlKeyName;
+
     public function __construct()
     {
-
+        $this->setUrlKeyName("url");
     }
 //    public function __construct($url, $fields)
 //    {
@@ -51,7 +56,7 @@ class CrawlSingle extends CrawlObject {
     public function getExport()
     {
         $export = array(
-            'url' => $this->getUrl()
+            $this->getUrlKeyName() => $this->getUrl()
         );
         foreach($this->getFields() as $field){
             foreach($field->getExport() as $key => $value){
@@ -59,5 +64,21 @@ class CrawlSingle extends CrawlObject {
             }
         }
         return $export;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlKeyName()
+    {
+        return $this->urlKeyName;
+    }
+
+    /**
+     * @param string $urlKeyName
+     */
+    public function setUrlKeyName($urlKeyName)
+    {
+        $this->urlKeyName = $urlKeyName;
     }
 }

@@ -46,6 +46,16 @@ class CrawlSingleBuilder extends CrawlObjectBuilder {
     }
 
     /**
+     * @param string $urlKeyName
+     * @return CrawlSingleBuilder $this
+     */
+    public function setUrlKeyName($urlKeyName)
+    {
+        $this->buildObject->setUrlKeyName($urlKeyName);
+        return $this;
+    }
+
+    /**
      * @throws \Exception
      */
     public function validate()

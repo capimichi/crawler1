@@ -55,6 +55,16 @@ abstract class WebContent
     protected $timeout;
 
     /**
+     * @var string|bool
+     */
+    protected $proxyUrl;
+
+    /**
+     * @var int
+     */
+    protected $proxyType;
+
+    /**
      * @var string
      */
     protected $basePath;
@@ -86,6 +96,8 @@ abstract class WebContent
         $this->setConnectionTimeout(0);
         $this->setTimeout(1000000);
         $this->setVerbose(false);
+        $this->setProxyUrl(false);
+        $this->setProxyType(CURLPROXY_SOCKS5);
     }
 
     /**
@@ -363,6 +375,10 @@ abstract class WebContent
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->getCookiePath());
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->getCookiePath());
         }
+        if($this->getProxyUrl()){
+            curl_setopt($ch, CURLOPT_PROXY, $this->getProxyUrl());
+            curl_setopt($ch, CURLOPT_PROXYTYPE, $this->getProxyType());
+        }
         usleep($this->getInterval());
         $content = curl_exec($ch);
         curl_close($ch);
@@ -415,5 +431,37 @@ abstract class WebContent
     protected function isVerbose()
     {
         return $this->verbose;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyUrl()
+    {
+        return $this->proxyUrl;
+    }
+
+    /**
+     * @param string $proxyUrl
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        $this->proxyUrl = $proxyUrl;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProxyType()
+    {
+        return $this->proxyType;
+    }
+
+    /**
+     * @param int $proxyType
+     */
+    public function setProxyType($proxyType)
+    {
+        $this->proxyType = $proxyType;
     }
 }

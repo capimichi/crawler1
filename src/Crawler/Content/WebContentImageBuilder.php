@@ -127,6 +127,24 @@ class WebContentImageBuilder extends WebContentBuilder
     }
 
     /**
+     * @param string|bool $proxyUrl
+     * @return WebContentImageBuilder
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        return parent::setProxyUrl($proxyUrl);
+    }
+
+    /**
+     * @param int $proxyType
+     * @return WebContentImageBuilder
+     */
+    public function setProxyType($proxyType)
+    {
+        return parent::setProxyType($proxyType);
+    }
+
+    /**
      * @return WebContentImageBuilder
      */
     public function validate()

@@ -127,6 +127,24 @@ class WebContentPageBuilder extends WebContentBuilder
     }
 
     /**
+     * @param string|bool $proxyUrl
+     * @return WebContentPageBuilder
+     */
+    public function setProxyUrl($proxyUrl)
+    {
+        return parent::setProxyUrl($proxyUrl);
+    }
+
+    /**
+     * @param int $proxyType
+     * @return WebContentPageBuilder
+     */
+    public function setProxyType($proxyType)
+    {
+        return parent::setProxyType($proxyType);
+    }
+
+    /**
      * @return WebContentPageBuilder $this
      * @throws \Exception
      */
