@@ -122,6 +122,15 @@ class CrawlerBuilder{
     }
 
     /**
+     * @param bool $verifyPeer
+     * @return CrawlerBuilder $this
+     */
+    public function setVerifyPeer($verifyPeer){
+        $this->crawler->setVerifyPeer($verifyPeer);
+        return $this;
+    }
+
+    /**
      * @param string $proxyUrl
      * @return CrawlerBuilder $this
      */
