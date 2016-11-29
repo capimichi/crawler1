@@ -46,6 +46,11 @@ class Crawler extends ConfigurableDownloadObject
     /**
      * @var array
      */
+    protected $itemsInline;
+
+    /**
+     * @var array
+     */
     protected $fields;
 
     /**
@@ -196,6 +201,45 @@ class Crawler extends ConfigurableDownloadObject
         return $this->items;
     }
 
+    /**
+     * @return array
+     */
+    public function getItemsInline()
+    {
+        if(!isset($this->itemsInline)){
+            $items = array();
+            foreach($this->getArchives() as $archive){
+                /* @var CrawlArchive $archive */
+                $doms = $archive->getItemsInlineDom();
+                foreach($doms as $dom){
+                    $builder = new CrawlSingleBuilder();
+                    foreach($this->getFields() as $field){
+                        $builder->addField($field);
+                    }
+                    $builder->setUrl("");
+                    $contentPageBuilder = new WebContentPageBuilder();
+                    $contentPageBuilder
+                        ->setUrl("")
+                        ->setDomDocument($dom);
+
+                    // TODO: Parametri al WebContentPage
+
+                    $builder->setWebContentPage($contentPageBuilder->build());
+                    $items[] = $builder->build();
+                }
+            }
+            $this->setItems($items);
+        }
+        return $this->itemsInline;
+    }
+
+    /**
+     * @param array $itemsInline
+     */
+    public function setItemsInline($itemsInline)
+    {
+        $this->itemsInline = $itemsInline;
+    }
 
     /**
      * @return array

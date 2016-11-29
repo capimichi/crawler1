@@ -46,7 +46,7 @@ class WebContentPage extends WebContent {
     /**
      * @param \DOMDocument $domDocument
      */
-    protected function setDomDocument($domDocument)
+    public function setDomDocument($domDocument)
     {
         $this->domDocument = $domDocument;
     }
@@ -54,7 +54,7 @@ class WebContentPage extends WebContent {
     /**
      * @param \DOMXPath $domXpath
      */
-    protected function setDomXpath($domXpath)
+    public function setDomXpath($domXpath)
     {
         $this->domXpath = $domXpath;
     }

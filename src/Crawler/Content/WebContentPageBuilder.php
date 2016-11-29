@@ -145,6 +145,25 @@ class WebContentPageBuilder extends WebContentBuilder
     }
 
     /**
+     * @param \DOMDocument $domDocument
+     * @return WebContentPageBuilder
+     */
+    public function setDomDocument($domDocument)
+    {
+        $this->buildObject->setDomDocument($domDocument);
+        return $this;
+    }
+
+    /**
+     * @param \DOMXPath $domXpath
+     * @return WebContentPageBuilder
+     */
+    public function setDomXpath($domXpath)
+    {
+        $this->buildObject->setDomXpath($domXpath);
+    }
+
+    /**
      * @return WebContentPageBuilder $this
      * @throws \Exception
      */

@@ -29,6 +29,11 @@ class CrawlArchive extends CrawlObject
     protected $itemsUrls;
 
     /**
+     * @var array
+     */
+    protected $itemsInlineDom;
+
+    /**
      * CrawlArchive constructor.
      */
     public function __construct()
@@ -56,6 +61,33 @@ class CrawlArchive extends CrawlObject
             $this->setItemsUrls($itemsUrls);
         }
         return $this->itemsUrls;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItemsInlineDom(){
+        if(!isset($this->itemsInlineDom)){
+            $xpathQueryBuilder = new XpathQueryBuilder();
+            $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+            $elements = $this->getXpath()->query($query);
+            $items = array();
+            for ($i = 0; $i < $elements->length; $i++) {
+                $document = new DomDocument;
+                $document->appendChild($document->importNode($elements->item($i), true));
+                $items[] = $document;
+            }
+            $this->setItemsInlineDom($items);
+        }
+        return $this->itemsInlineDom;
+    }
+
+    /**
+     * @param array $itemsInlineDom
+     */
+    public function setItemsInlineDom($itemsInlineDom)
+    {
+        $this->itemsInlineDom = $itemsInlineDom;
     }
 
     /**

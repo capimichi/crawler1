@@ -108,7 +108,7 @@ class CrawlerBuilder{
      * @return CrawlerBuilder $this
      */
     public function setConnectionTimeout($timeout){
-        $this->crawler-$this->setConnectionTimeout($timeout);
+        $this->crawler->setConnectionTimeout($timeout);
         return $this;
     }
 
