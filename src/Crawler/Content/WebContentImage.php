@@ -4,8 +4,9 @@ namespace Crawler\Content;
 class WebContentImage extends WebContent
 {
 
-    public function __construct(){
-
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     /**

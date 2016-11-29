@@ -15,7 +15,7 @@ class WebContentPage extends WebContent {
 
     public function __construct()
     {
-
+        parent::__construct();
     }
 
     /**
