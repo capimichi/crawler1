@@ -73,7 +73,7 @@ class CrawlArchive extends CrawlObject
             $elements = $this->getXpath()->query($query);
             $items = array();
             for ($i = 0; $i < $elements->length; $i++) {
-                $document = new DomDocument;
+                $document = new \DOMDocument();
                 $document->appendChild($document->importNode($elements->item($i), true));
                 $items[] = $document;
             }
