@@ -46,7 +46,7 @@ class CrawlSingleBuilder extends CrawlObjectBuilder {
     }
 
     /**
-     * @param string $urlKeyName
+     * @param string|bool $urlKeyName
      * @return CrawlSingleBuilder $this
      */
     public function setUrlKeyName($urlKeyName)

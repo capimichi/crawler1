@@ -46,7 +46,7 @@ abstract class CrawlObjectBuilder{
      */
     public function validate(){
         if(empty($this->buildObject->getUrl())){
-            throw new \Exception("Url not defined");
+//            throw new \Exception("Url not defined");
         }
 
         if(empty($this->buildObject->getWebContent())){

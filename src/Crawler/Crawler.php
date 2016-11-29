@@ -228,7 +228,7 @@ class Crawler extends ConfigurableDownloadObject
                     $items[] = $builder->build();
                 }
             }
-            $this->setItems($items);
+            $this->setItemsInline($items);
         }
         return $this->itemsInline;
     }
