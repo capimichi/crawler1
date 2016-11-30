@@ -59,20 +59,25 @@ class CrawlArchive extends CrawlObject
         $this->setArchiveFields(array());
     }
 
-    public function getItems($openSingle = false){
-        if($openSingle){
-            if(!isset($this->itemsSingleOpened)){{
-                $items = array();
-                $xpathQueryBuilder = new XpathQueryBuilder();
-                $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
-                $elements = $this->getXpath()->query($query);
-                for ($i = 0; $i < $elements->length; $i++) {
-                    $urlObj = $elements->item($i)->attributes->getNamedItem("href");
-                    if ($urlObj != null)
-                        $url = $this->parseUrl($urlObj->nodeValue);
+    public function getItems($openSingle = false)
+    {
+        if ($openSingle) {
+            if (!isset($this->itemsSingleOpened)) {
+                {
+                    $items = array();
+                    $xpathQueryBuilder = new XpathQueryBuilder();
+                    $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+                    $elements = $this->getXpath()->query($query);
+                    for ($i = 0; $i < $elements->length; $i++) {
+                        $urlObj = $elements->item($i)->attributes->getNamedItem("href");
+                        if ($urlObj != null)
+                            $url = $this->parseUrl($urlObj->nodeValue);
                         $builder = new CrawlSingleBuilder();
-                        foreach($this->getSingleFields() as $field){
+                        foreach ($this->getSingleFields() as $field) {
                             $builder->addField($field);
+                        }
+                        foreach ($this->getExport() as $key => $value) {
+                            $builder->addExternalField($key, $value);
                         }
                         $builder->setUrl($url);
                         $contentPageBuilder = new WebContentPageBuilder();
@@ -98,7 +103,7 @@ class CrawlArchive extends CrawlObject
             }
             return $this->itemsSingleOpened;
         } else {
-            if(!isset($this->itemsSingleInline)){
+            if (!isset($this->itemsSingleInline)) {
                 $xpathQueryBuilder = new XpathQueryBuilder();
                 $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
                 $elements = $this->getXpath()->query($query);
@@ -107,8 +112,11 @@ class CrawlArchive extends CrawlObject
                     $document = new \DOMDocument();
                     $document->appendChild($document->importNode($elements->item($i), true));
                     $builder = new CrawlSingleBuilder();
-                    foreach($this->getSingleFields() as $field){
+                    foreach ($this->getSingleFields() as $field) {
                         $builder->addField($field);
+                    }
+                    foreach ($this->getExport() as $key => $value) {
+                        $builder->addExternalField($key, $value);
                     }
                     $builder->setUrl("");
                     $contentPageBuilder = new WebContentPageBuilder();
@@ -243,7 +251,27 @@ class CrawlArchive extends CrawlObject
      */
     public function setArchiveFields($archiveFields)
     {
+        if (count($archiveFields) > 0) {
+            $archiveFields = unserialize(serialize($archiveFields));
+            foreach ($archiveFields as $field) {
+                $field->setCrawlArchive($this);
+            }
+        }
         $this->archiveFields = $archiveFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExport()
+    {
+        $export = array();
+        foreach ($this->getArchiveFields() as $field) {
+            foreach ($field->getExport() as $key => $value) {
+                $export[$key] = $value;
+            }
+        }
+        return $export;
     }
 
     /**

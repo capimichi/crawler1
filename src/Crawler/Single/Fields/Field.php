@@ -1,5 +1,6 @@
 <?php
 namespace Crawler\Single\Fields;
+use Crawler\Archive\CrawlArchive;
 use Crawler\Single\CrawlSingle;
 
 /**
@@ -32,6 +33,11 @@ abstract class Field {
      * @var CrawlSingle
      */
     protected $crawlSingle;
+
+    /**
+     * @var CrawlArchive
+     */
+    protected $crawlArchive;
 
     /**
      * @var array
@@ -135,7 +141,12 @@ abstract class Field {
      */
     public function getXpath()
     {
-        return $this->getCrawlSingle()->getXpath();
+        if(isset($this->crawlSingle)) {
+            return $this->getCrawlSingle()->getXpath();
+        }
+        if(isset($this->crawlArchive)) {
+            return $this->getCrawlArchive()->getXpath();
+        }
     }
 
     /**
@@ -152,6 +163,22 @@ abstract class Field {
     public function setRewrites($rewrites)
     {
         $this->rewrites = $rewrites;
+    }
+
+    /**
+     * @return CrawlArchive
+     */
+    public function getCrawlArchive()
+    {
+        return $this->crawlArchive;
+    }
+
+    /**
+     * @param CrawlArchive $crawlArchive
+     */
+    public function setCrawlArchive($crawlArchive)
+    {
+        $this->crawlArchive = $crawlArchive;
     }
 
     /**

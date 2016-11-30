@@ -28,6 +28,18 @@ class CrawlSingleBuilder extends CrawlObjectBuilder {
     }
 
     /**
+     * @param string $key
+     * @param string $value
+     * @return CrawlSingleBuilder $this
+     */
+    public function addExternalField($key, $value){
+        $fields = $this->buildObject->getExternalFields();
+        $fields[$key] = $value;
+        $this->buildObject->setExternalFields($fields);
+        return $this;
+    }
+
+    /**
      * @param string $url
      * @return CrawlSingleBuilder
      */
