@@ -175,10 +175,6 @@ class CrawlerBuilder{
         if(count($this->crawler->getItemsSelectors()) < 1){
             throw new \Exception("Items selectors not added in crawler builder");
         }
-
-        if(count($this->crawler->getFields()) < 1){
-            throw new \Exception("Fields selectors not added in crawler builder");
-        }
         return $this;
     }
 
