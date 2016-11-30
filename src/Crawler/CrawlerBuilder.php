@@ -61,9 +61,9 @@ class CrawlerBuilder{
      */
     public function addArchiveField($field)
     {
-        $fields = $this->buildObject->getArchiveFields();
+        $fields = $this->crawler->getArchiveFields();
         $fields[] = $field;
-        $this->buildObject->setArchiveFields($fields);
+        $this->crawler->setArchiveFields($fields);
         return $this;
     }
 
@@ -73,9 +73,9 @@ class CrawlerBuilder{
      */
     public function addSingleField($field)
     {
-        $fields = $this->buildObject->getSingleFields();
+        $fields = $this->crawler->getSingleFields();
         $fields[] = $field;
-        $this->buildObject->setSingleFields($fields);
+        $this->crawler->setSingleFields($fields);
         return $this;
     }
 
