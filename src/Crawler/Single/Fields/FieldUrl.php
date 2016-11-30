@@ -2,6 +2,7 @@
 namespace Crawler\Single\Fields;
 
 use Crawler\Single\Fields\Field;
+use Crawler\Utils\XpathQueryBuilder;
 
 class FieldUrl extends Field {
 
