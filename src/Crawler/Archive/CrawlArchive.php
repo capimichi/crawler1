@@ -4,6 +4,7 @@ namespace Crawler\Archive;
 use Crawler\CrawlObject;
 use Crawler\Utils\XpathQueryBuilder;
 use Crawler\Single\CrawlSingle;
+use Crawler\Single\CrawlSingleBuilder;
 use Crawler\Crawler;
 
 /**
