@@ -1,6 +1,7 @@
 <?php
 namespace Crawler\Archive;
 
+use Crawler\Content\WebContentPageBuilder;
 use Crawler\CrawlObject;
 use Crawler\Utils\XpathQueryBuilder;
 use Crawler\Single\CrawlSingle;
