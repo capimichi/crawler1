@@ -57,12 +57,25 @@ class CrawlerBuilder{
 
     /**
      * @param Field $field
-     * @return CrawlerBuilder $this
+     * @return CrawlArchiveBuilder $this
      */
-    public function addField($field){
-        $fields = $this->crawler->getFields();
+    public function addArchiveField($field)
+    {
+        $fields = $this->buildObject->getArchiveFields();
         $fields[] = $field;
-        $this->crawler->setFields($fields);
+        $this->buildObject->setArchiveFields($fields);
+        return $this;
+    }
+
+    /**
+     * @param Field $field
+     * @return CrawlArchiveBuilder $this
+     */
+    public function addSingleField($field)
+    {
+        $fields = $this->buildObject->getSingleFields();
+        $fields[] = $field;
+        $this->buildObject->setSingleFields($fields);
         return $this;
     }
 

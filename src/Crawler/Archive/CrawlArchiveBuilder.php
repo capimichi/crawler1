@@ -1,6 +1,7 @@
 <?php
 namespace Crawler\Archive;
 use Crawler\CrawlObjectBuilder;
+use Crawler\Single\Fields\Field;
 
 /**
  * Class CrawlArchiveBuilder
@@ -57,6 +58,30 @@ class CrawlArchiveBuilder extends CrawlObjectBuilder {
     public function setUrl($url)
     {
         return parent::setUrl($url);
+    }
+
+    /**
+     * @param Field $field
+     * @return CrawlArchiveBuilder $this
+     */
+    public function addArchiveField($field)
+    {
+        $fields = $this->buildObject->getArchiveFields();
+        $fields[] = $field;
+        $this->buildObject->setArchiveFields($fields);
+        return $this;
+    }
+
+    /**
+     * @param Field $field
+     * @return CrawlArchiveBuilder $this
+     */
+    public function addSingleField($field)
+    {
+        $fields = $this->buildObject->getSingleFields();
+        $fields[] = $field;
+        $this->buildObject->setSingleFields($fields);
+        return $this;
     }
 
     /**

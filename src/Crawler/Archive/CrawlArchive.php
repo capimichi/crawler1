@@ -26,12 +26,27 @@ class CrawlArchive extends CrawlObject
     /**
      * @var array
      */
-    protected $itemsUrls;
+    protected $itemsSingleOpened;
 
     /**
      * @var array
      */
-    protected $itemsInlineDom;
+    protected $itemsSingleInline;
+
+    /**
+     * @var array
+     */
+    protected $singleFields;
+
+    /**
+     * @var array
+     */
+    protected $archiveFields;
+
+    /**
+     * @var array
+     */
+    protected $itemsArchive;
 
     /**
      * CrawlArchive constructor.
@@ -41,53 +56,96 @@ class CrawlArchive extends CrawlObject
 
     }
 
-    /**
-     * @return array
-     */
-    public function getItemsUrls()
-    {
-        if(!isset($this->itemsUrls)){
-            $xpathQueryBuilder = new XpathQueryBuilder();
-            $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
-            $elements = $this->getXpath()->query($query);
-            $itemsUrls = array();
-            for ($i = 0; $i < $elements->length; $i++) {
-                $urlObj = $elements->item($i)->attributes->getNamedItem("href");
-                if ($urlObj != null) {
-                    $url = $this->parseUrl($urlObj->nodeValue);
-                    $itemsUrls[] = $url;
+    public function getItems($openSingle = false){
+        if($openSingle){
+            if(!isset($this->itemsSingleOpened)){{
+                $items = array();
+                $xpathQueryBuilder = new XpathQueryBuilder();
+                $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+                $elements = $this->getXpath()->query($query);
+                for ($i = 0; $i < $elements->length; $i++) {
+                    $urlObj = $elements->item($i)->attributes->getNamedItem("href");
+                    if ($urlObj != null)
+                        $url = $this->parseUrl($urlObj->nodeValue);
+                        $builder = new CrawlSingleBuilder();
+                        foreach($this->getSingleFields() as $field){
+                            $builder->addField($field);
+                        }
+                        $builder->setUrl($url);
+                        $contentPageBuilder = new WebContentPageBuilder();
+                        $contentPageBuilder
+                            ->setUrl($url)
+                            ->setVerbose($this->isVerbose())
+                            ->setInterval($this->getInterval())
+                            ->setTimeout($this->getTimeout())
+                            ->setUseragent($this->getUseragent())
+                            ->setProxyUrl($this->getProxyUrl())
+                            ->setProxyType($this->getProxyType())
+                            ->setConnectionTimeout($this->getConnectionTimeout())
+                            ->setVerifyPeer($this->isVerifyPeer());
+
+                        // TODO: Parametri al WebContentPage
+
+                        $builder->setWebContentPage($contentPageBuilder->build());
+                        $items[] = $builder->build();
+                    }
                 }
+                $this->setItemsSingleOpened($items);
+
             }
-            $this->setItemsUrls($itemsUrls);
+            return $this->itemsSingleOpened;
+        } else {
+            if(!isset($this->itemsSingleInline)){
+                $xpathQueryBuilder = new XpathQueryBuilder();
+                $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
+                $elements = $this->getXpath()->query($query);
+                $items = array();
+                for ($i = 0; $i < $elements->length; $i++) {
+                    $document = new \DOMDocument();
+                    $document->appendChild($document->importNode($elements->item($i), true));
+                    $builder = new CrawlSingleBuilder();
+                    foreach($this->getSingleFields() as $field){
+                        $builder->addField($field);
+                    }
+                    $builder->setUrl("");
+                    $contentPageBuilder = new WebContentPageBuilder();
+                    $contentPageBuilder
+                        ->setUrl("")
+                        ->setDomDocument($document);
+
+                    // TODO: Parametri al WebContentPage
+
+                    $builder->setWebContentPage($contentPageBuilder->build());
+                    $items[] = $builder->build();
+                }
+                $this->setItemsSingleInline($items);
+            }
+            return $this->itemsSingleInline;
         }
-        return $this->itemsUrls;
     }
 
     /**
-     * @return array
+     * @param array $itemsSingleOpened
      */
-    public function getItemsInlineDom(){
-        if(!isset($this->itemsInlineDom)){
-            $xpathQueryBuilder = new XpathQueryBuilder();
-            $query = $xpathQueryBuilder->addQueryBySelectors($this->getItemsSelectors())->getQuery();
-            $elements = $this->getXpath()->query($query);
-            $items = array();
-            for ($i = 0; $i < $elements->length; $i++) {
-                $document = new \DOMDocument();
-                $document->appendChild($document->importNode($elements->item($i), true));
-                $items[] = $document;
-            }
-            $this->setItemsInlineDom($items);
-        }
-        return $this->itemsInlineDom;
-    }
-
-    /**
-     * @param array $itemsInlineDom
-     */
-    public function setItemsInlineDom($itemsInlineDom)
+    public function setItemsSingleOpened($itemsSingleOpened)
     {
-        $this->itemsInlineDom = $itemsInlineDom;
+        $this->itemsSingleOpened = $itemsSingleOpened;
+    }
+
+    /**
+     * @param array $itemsSingleInline
+     */
+    public function setItemsSingleInline($itemsSingleInline)
+    {
+        $this->itemsSingleInline = $itemsSingleInline;
+    }
+
+    /**
+     * @param array $itemsArchive
+     */
+    public function setItemsArchive($itemsArchive)
+    {
+        $this->itemsArchive = $itemsArchive;
     }
 
     /**
@@ -151,6 +209,38 @@ class CrawlArchive extends CrawlObject
     public function getNextpageSelectors()
     {
         return $this->nextpageSelectors;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSingleFields()
+    {
+        return $this->singleFields;
+    }
+
+    /**
+     * @param array $singleFields
+     */
+    public function setSingleFields($singleFields)
+    {
+        $this->singleFields = $singleFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArchiveFields()
+    {
+        return $this->archiveFields;
+    }
+
+    /**
+     * @param array $archiveFields
+     */
+    public function setArchiveFields($archiveFields)
+    {
+        $this->archiveFields = $archiveFields;
     }
 
     /**
