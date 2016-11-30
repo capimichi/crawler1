@@ -86,7 +86,8 @@ class Crawler extends ConfigurableDownloadObject
         $this->setStartingUrls(array());
         $this->setItemsSelectors(array());
         $this->setNextpageSelectors(array());
-        $this->setFields(array());
+        $this->setSingleFields(array());
+        $this->setArchiveFields(array());
         $this->setVerbose(false);
         $this->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
         $this->setInterval(0);

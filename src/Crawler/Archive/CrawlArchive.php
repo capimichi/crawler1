@@ -53,7 +53,8 @@ class CrawlArchive extends CrawlObject
      */
     public function __construct()
     {
-
+        $this->setSingleFields(array());
+        $this->setArchiveFields(array());
     }
 
     public function getItems($openSingle = false){
