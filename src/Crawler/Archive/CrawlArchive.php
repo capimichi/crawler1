@@ -118,10 +118,10 @@ class CrawlArchive extends CrawlObject
                     foreach ($this->getExport() as $key => $value) {
                         $builder->addExternalField($key, $value);
                     }
-                    $builder->setUrl("");
+                    $builder->setUrl($this->getUrl());
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder
-                        ->setUrl("")
+                        ->setUrl($this->getUrl())
                         ->setDomDocument($document);
 
                     // TODO: Parametri al WebContentPage
