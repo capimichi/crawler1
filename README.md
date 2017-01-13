@@ -20,6 +20,12 @@ include_once '/path/to/src/autoload.php'
 ```
 then you can create your crawler like this:
 ```php
+use Crawler\CrawlerBuilder;
+use Crawler\Selector;
+use Crawler\SelectorTypes;
+use Crawler\Single\Fields\FieldBuilder;
+use Crawler\Single\Fields\FieldTypes;
+
 $crawlerBuilder = (new CrawlerBuilder())->addStartingUrl("http://example-archive.com/products")
             ->addItemSelector(new Selector(SelectorTypes::CLASSNAME, "product-item-info"))
             ->addItemSelector(new Selector(SelectorTypes::CLASSNAME, "product"))
