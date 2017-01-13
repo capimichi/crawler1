@@ -93,7 +93,7 @@ class CrawlArchive extends CrawlObject
     /**
      * @return string|null
      */
-    public function getNextpageUrl()
+    public function getNextpageUrl($index = 0)
     {
         $xpathQueryBuilder = new XpathQueryBuilder();
         $query = $xpathQueryBuilder->addQueryBySelectors($this->getNextpageSelectors())->getQuery();
@@ -102,9 +102,13 @@ class CrawlArchive extends CrawlObject
         $elements = $xpath->query($query);
         if ($elements->length > 0) {
             $element = null;
-            for ($i = 0; $i < $elements->length; $i++) {
-                $element = $elements->item($i);
+            $i = $elements->length - 1;
+            if($index > 0){
+                $i = $index;
+            } elseif ($index < 0){
+                $i += $index;
             }
+            $element = $elements->item($i);
             if ($element != null) {
                 $attributes = $element->attributes;
                 if ($attributes != null) {
