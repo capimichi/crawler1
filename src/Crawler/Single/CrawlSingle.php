@@ -15,9 +15,15 @@ class CrawlSingle extends CrawlObject {
      */
     protected $urlKeyName;
 
+    /**
+     * @var array
+     */
+    protected $externalFields;
+
     public function __construct()
     {
         $this->setUrlKeyName(false);
+        $this->setExternalFields(array());
     }
 //    public function __construct($url, $fields)
 //    {
@@ -64,6 +70,9 @@ class CrawlSingle extends CrawlObject {
                 $export[$key] = $value;
             }
         }
+        foreach($this->getExternalFields() as $key => $value){
+            $export[$key] = $value;
+        }
         return $export;
     }
 
@@ -81,5 +90,21 @@ class CrawlSingle extends CrawlObject {
     public function setUrlKeyName($urlKeyName)
     {
         $this->urlKeyName = $urlKeyName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExternalFields()
+    {
+        return $this->externalFields;
+    }
+
+    /**
+     * @param array $externalFields
+     */
+    public function setExternalFields($externalFields)
+    {
+        $this->externalFields = $externalFields;
     }
 }

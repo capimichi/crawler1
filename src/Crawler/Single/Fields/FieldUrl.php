@@ -2,13 +2,14 @@
 namespace Crawler\Single\Fields;
 
 use Crawler\Single\Fields\Field;
+use Crawler\Utils\XpathQueryBuilder;
 
 class FieldUrl extends Field {
 
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrlValue()
     {
         $xpath = $this->getXpath();
         $builder = new XpathQueryBuilder();
@@ -38,7 +39,7 @@ class FieldUrl extends Field {
     public function getExport()
     {
         return array(
-            $this->getName() => $this->getUrl()
+            $this->getName() => $this->getUrlValue()
         );
     }
 }

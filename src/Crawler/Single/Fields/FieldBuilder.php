@@ -32,6 +32,9 @@ class FieldBuilder
             case FieldTypes::IMAGE:
                 $this->field = new FieldImage();
                 break;
+            case FieldTypes::ATTRIBUTE:
+                $this->field = new FieldAttribute();
+                break;
         }
     }
 
@@ -77,6 +80,16 @@ class FieldBuilder
         $rewrites = $this->field->getRewrites();
         $rewrites[] = $rewrite;
         $this->field->setRewrites($rewrites);
+        return $this;
+    }
+
+    /**
+     * @param string $attributeName
+     * @return FieldBuilder $this
+     */
+    public function setAttributeName($attributeName)
+    {
+        $this->field->setAttributeName($attributeName);
         return $this;
     }
 

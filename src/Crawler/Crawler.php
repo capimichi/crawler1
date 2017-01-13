@@ -51,7 +51,12 @@ class Crawler extends ConfigurableDownloadObject
     /**
      * @var array
      */
-    protected $fields;
+    protected $singleFields;
+
+    /**
+     * @var array
+     */
+    protected $archiveFields;
 
     /**
      * @var bool
@@ -81,7 +86,8 @@ class Crawler extends ConfigurableDownloadObject
         $this->setStartingUrls(array());
         $this->setItemsSelectors(array());
         $this->setNextpageSelectors(array());
-        $this->setFields(array());
+        $this->setSingleFields(array());
+        $this->setArchiveFields(array());
         $this->setVerbose(false);
         $this->setUseragent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.coms/bot.html)");
         $this->setInterval(0);
@@ -108,6 +114,12 @@ class Crawler extends ConfigurableDownloadObject
                 }
                 foreach($this->getNextpageSelectors() as $nextpageSelector){
                     $builder->addNextpageSelector($nextpageSelector);
+                }
+                foreach($this->getSingleFields() as $field){
+                    $builder->addSingleField($field);
+                }
+                foreach($this->getArchiveFields() as $field){
+                    $builder->addArchiveField($field);
                 }
                 $contentPageBuilder = new WebContentPageBuilder();
                 $contentPageBuilder
@@ -138,6 +150,12 @@ class Crawler extends ConfigurableDownloadObject
                     }
                     foreach($this->getNextpageSelectors() as $nextpageSelector){
                         $builder->addNextpageSelector($nextpageSelector);
+                    }
+                    foreach($this->getSingleFields() as $field){
+                        $builder->addSingleField($field);
+                    }
+                    foreach($this->getArchiveFields() as $field){
+                        $builder->addArchiveField($field);
                     }
                     $contentPageBuilder = new WebContentPageBuilder();
                     $contentPageBuilder
@@ -368,6 +386,38 @@ class Crawler extends ConfigurableDownloadObject
     public function setProxyType($proxyType)
     {
         $this->proxyType = $proxyType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSingleFields()
+    {
+        return $this->singleFields;
+    }
+
+    /**
+     * @param array $singleFields
+     */
+    public function setSingleFields($singleFields)
+    {
+        $this->singleFields = $singleFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArchiveFields()
+    {
+        return $this->archiveFields;
+    }
+
+    /**
+     * @param array $archiveFields
+     */
+    public function setArchiveFields($archiveFields)
+    {
+        $this->archiveFields = $archiveFields;
     }
 
     /**

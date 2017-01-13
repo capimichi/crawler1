@@ -57,12 +57,25 @@ class CrawlerBuilder{
 
     /**
      * @param Field $field
-     * @return CrawlerBuilder $this
+     * @return CrawlArchiveBuilder $this
      */
-    public function addField($field){
-        $fields = $this->crawler->getFields();
+    public function addArchiveField($field)
+    {
+        $fields = $this->crawler->getArchiveFields();
         $fields[] = $field;
-        $this->crawler->setFields($fields);
+        $this->crawler->setArchiveFields($fields);
+        return $this;
+    }
+
+    /**
+     * @param Field $field
+     * @return CrawlArchiveBuilder $this
+     */
+    public function addSingleField($field)
+    {
+        $fields = $this->crawler->getSingleFields();
+        $fields[] = $field;
+        $this->crawler->setSingleFields($fields);
         return $this;
     }
 
@@ -122,6 +135,15 @@ class CrawlerBuilder{
     }
 
     /**
+     * @param bool $verifyPeer
+     * @return CrawlerBuilder $this
+     */
+    public function setVerifyPeer($verifyPeer){
+        $this->crawler->setVerifyPeer($verifyPeer);
+        return $this;
+    }
+
+    /**
      * @param string $proxyUrl
      * @return CrawlerBuilder $this
      */
@@ -152,10 +174,6 @@ class CrawlerBuilder{
 
         if(count($this->crawler->getItemsSelectors()) < 1){
             throw new \Exception("Items selectors not added in crawler builder");
-        }
-
-        if(count($this->crawler->getFields()) < 1){
-            throw new \Exception("Fields selectors not added in crawler builder");
         }
         return $this;
     }
